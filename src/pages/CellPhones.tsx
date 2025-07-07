@@ -1,11 +1,22 @@
-import { allCelulares } from "../data/initialData"
 import { prepareProducts } from "../helpers"
 import { CardProduct } from "../products/CardProduct";
 import { Filter } from "../products/Filter";
+import { useFilteredProducts } from "../hooks";
+import { useState } from "react";
+import { Pagination } from "../components/shared/Pagination";
 
 export const CellPhones = () => {
-  
-    const preparedProducts = prepareProducts(allCelulares);
+
+ const [page,setPage] = useState(1);
+ const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+
+  const {data:products = [],isLoading, totalProducts} = useFilteredProducts({
+    page,
+    brands:selectedBrands
+  });
+
+
+  const preparedProducts = prepareProducts(products);
 
   return (
     <>
@@ -14,9 +25,16 @@ export const CellPhones = () => {
       </h1>
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-colsl-5">
-          <Filter/>
+          <Filter
+            selectedBrands={selectedBrands}
+            setSelectedBrands={setSelectedBrands}
+          />
 
-          <div className="col-span-2 lg:col-span-2 cl:col-span-4 flex flex-col gap-12">
+          {
+            isLoading ?(
+              <div className="col-span-2 flex items-center justify-center h-[500px]">Cargando</div>
+            ):(
+                <div className="col-span-2 lg:col-span-2 cl:col-span-4 flex flex-col gap-12">
 
                 <div className="grid grid-cols-2 gap-3 gap-y-10 xl:grid-cols-4">
                     {preparedProducts.map(product =>(
@@ -31,8 +49,16 @@ export const CellPhones = () => {
                                      />
                     ))}
                 </div>
+                <Pagination
+                  totalItems = {totalProducts}
+                  page = {page}
+                  setPage = {setPage}
+                
+                />
           </div>
+            )
+          } 
       </div>
     </>
   )
-}
+};

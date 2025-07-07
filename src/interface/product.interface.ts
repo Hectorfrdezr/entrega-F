@@ -1,4 +1,4 @@
-import type { JSONContent } from "@tiptap/react";
+import type { Json } from "../supabase/supabase";
 
 
 export interface color {
@@ -22,7 +22,7 @@ export interface product{
     brand:string;
     slug:string;
     features:string[];
-    description: JSONContent;
+    description: Json;
     images:string[];
     created_at: string;
     variants:variantProduct[];
@@ -34,7 +34,7 @@ export interface PreparedProducts{
     brand:string;
     slug:string;
     features:string[];
-    description: JSONContent;
+    description: Json;
     images:string[];
     created_at: string;
     price:number;

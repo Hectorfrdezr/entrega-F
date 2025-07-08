@@ -75,5 +75,5 @@ export const getRandomtProducts = async () => {
         .sort(()=> 0.5 - Math.random())
         .slice(0.4);
 
-    return products;
+    return randomProducts;
 };

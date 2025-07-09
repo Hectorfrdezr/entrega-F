@@ -15,7 +15,7 @@ export const router = createBrowserRouter([{
             element: <CellPhones/>
         },
         {
-            path: 'producto/:slug',
+            path: 'productos/:slug',
             element: <CellPhonePage/>
         },
         {

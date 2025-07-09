@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { formaPrice } from "../helpers";
+import { formatPrice } from "../helpers";
 
 interface Props{
 
@@ -52,7 +52,7 @@ return (
             <p className="text-[15px] font.
             font-medium">{name}</p>
             <p className="text-[15px] font.
-            font-medium">{formaPrice(price)}</p>
+            font-medium">{formatPrice(price)}</p>
 
                <div className="flex gap-3">
                 {

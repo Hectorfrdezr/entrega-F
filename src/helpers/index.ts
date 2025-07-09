@@ -2,7 +2,7 @@ import type { color, product, variantProduct } from "../interface";
 
 //funsion para formatear el precio a $
 
-export const formaPrice = (price:number) => {
+export const formatPrice = (price:number) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',

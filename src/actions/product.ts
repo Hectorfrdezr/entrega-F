@@ -77,3 +77,15 @@ export const getRandomtProducts = async () => {
 
     return randomProducts;
 };
+
+export const  getProductBySlug = async (slug: string) => {
+    const {data, error} = await supabase
+    .from('products')
+    .select('*,variants(*)')
+    .eq('slug',slug);
+
+    if(error){
+        console.log(error.message);
+        throw new Error(error.message);
+    }return data;
+};

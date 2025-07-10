@@ -9,6 +9,8 @@ import { GridImages } from "../components/OneProduct/GridImages";
 import { useProduct } from "../hooks/products/useProduct";
 import { useEffect, useMemo, useState } from "react";
 import type { variantProduct } from "../interface";
+import { Tag } from "../components/shared/Tag";
+import { Loader } from "../components/shared/Loader";
 
 interface Acc{
     [key:string]:{
@@ -76,6 +78,8 @@ export const CellPhonePage = () => {
     //Stock
     const IsOutOfStock = selectedVariant?.stock === 0;
 
+    if(isLoading)return <Loader/>;
+
     if(!product || isError)return(
         <div className="felx justify-center items-center h-[80Vh]">
             <p>Producto no encontrado</p>
@@ -83,7 +87,7 @@ export const CellPhonePage = () => {
     );
 
     return (<>
-    <div className="h-fit flex flex-col md:flex-row gap-16 mt_8">
+    <div className="h-fit flex flex-col md:flex-row gap-16 mt-8">
         <div>
            <GridImages images={product.images}/>
         </div>
@@ -96,7 +100,7 @@ export const CellPhonePage = () => {
                     <span className="tracking-wide text-lg font-semibold">{formatPrice(selectedVariant?.price || product.variants[0].price)}</span>
                     
                 <div className="relative">
-                    {IsOutOfStock && <span>Agotado</span>}
+                    {IsOutOfStock && <Tag contentTag="agotado"/>}
                 </div>
             </div>
 
@@ -122,21 +126,23 @@ export const CellPhonePage = () => {
                             availableColors.map(color =>(
                             <button 
                             key={color}
-                            className={`w-8 h-8 rounded-full flex justify-center items-center ${ selectedColor === color? 'bg-blue-500' : 'bg-gray-500'}`}>
-                            <span className="w-[26px] h-[26px] rounded-full" style={{backgroundColor:'blue'}}/>
+                            className={`w-8 h-8 rounded-full flex justify-center items-center ${ selectedColor === color? 'bg-blue-500' : 'bg-gray-500'}`}
+
+                            onClick={()=> setSelectedColor(color)}
+                            >
+                            <span className="w-[26px] h-[26px] rounded-full" style={{backgroundColor:color}}/>
                         </button>))
                         }
                         
                     </div>
             </div> 
 
-        {/*Opciones de almacenamiento*/}
+        {/*Opciones de almacenamiento*/} 
         <div className="flex flex-col gap-3">
             <p className="text-xs font-medium">
                 Almacenamiento disponible
             </p>
-            {
-                selectedStorage &&(
+                {selectedColor && (
                     <div className="flex gap-3">
                 <select className="border border-gray-300 rounded-lg px-3 py-1" value={selectedStorage || ''}
                     onChange={e => setSelectedStorage(e.target.value)}
@@ -155,7 +161,7 @@ export const CellPhonePage = () => {
         {
             IsOutOfStock ? (
                 <button
-                className="bg-[#f3f3f3] uppercase font-semibold tracking-widest text-xs py-4 rounded-full transition-all duration-300 hover:bg[#e2e2e2] w-full"
+                className="bg-[#f3f3f3] uppercase font-semibold tracking-widest text-xs py-4 rounded-full transition-all duration-300 hover:bg-[#e2e2e2] w-full"
                 disabled>
                     Agotado
                 </button>

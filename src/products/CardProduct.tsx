@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../helpers";
+import { Tag } from "../components/shared/Tag";
 
 interface Props{
 
@@ -74,7 +75,7 @@ return (
         </div>
         <div className="absoliute top-2 left-2">
             {
-             stock === 0 && <span>Agotado</span>   
+             stock === 0 && <Tag contentTag="agotado"/>   
             }
         </div>
     </div>

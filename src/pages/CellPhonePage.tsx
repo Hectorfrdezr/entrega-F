@@ -1,4 +1,4 @@
-import { LuMinus } from "react-icons/lu";
+import { LuMinus, } from "react-icons/lu";
 import { Separator } from "../components/shared/Separator";
 import { formatPrice } from "../helpers";
 import { CiDeliveryTruck } from "react-icons/ci";
@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { variantProduct } from "../interface";
 import { Tag } from "../components/shared/Tag";
 import { Loader } from "../components/shared/Loader";
+import { FaPlus } from "react-icons/fa6";
 
 interface Acc{
     [key:string]:{
@@ -178,7 +179,7 @@ export const CellPhonePage = () => {
                         </button>
                         <span className="text-slate-500 text-sm">1</span>
                         <button>
-                            <LuMinus size={15}/>
+                            <FaPlus size={15}/>
                         </button>
                     </div>
                 </div>

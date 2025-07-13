@@ -4,8 +4,17 @@ import { HiOutlineSearch, HiOutlineShoppingBag } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { FaBarsStaggered } from "react-icons/fa6";
 import {Logo} from "./Logo";
+import { useGlobalStore } from "../../store/Global.store";
+import { useCartStore } from "../../store";
 
 export const Navbar = () => {
+
+    const openSheet = useGlobalStore(state=> state.openSheet);
+
+    const setActiveNavMobile = useGlobalStore(state=> state.setActiveNavMobile);
+
+    const totalItemInCart = useCartStore (state => state.totalItemsInCart);
+
   return (
     <header className="bg-white text-black py-4 flex items-center justify-between px-5 border-b border-slate-200 lg:px-12">
        <Logo/>
@@ -22,8 +31,8 @@ export const Navbar = () => {
                 </NavLink>
             ))}
         </nav>
-        <div className="flex gap-5 items-center">
-            <button>
+        <div className="flex gap-5 items-center" >
+            <button onClick={()=> openSheet('search')} >
                 <HiOutlineSearch size ={25}/> 
             </button>
 
@@ -31,12 +40,12 @@ export const Navbar = () => {
                 {/* User Nav*/ }
                 <Link to ='/account' className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">R</Link>
             </div>
-            <button className="relative">
-                <span className="absolute -bottom-2 -right-2 w-5 h-5 grid place-items-center bg-black text-white text-xs rounded-full">0</span>
+            <button className="relative" onClick={()=> openSheet('cart')}>
+                <span className="absolute -bottom-2 -right-2 w-5 h-5 grid place-items-center bg-black text-white text-xs rounded-full">{totalItemInCart}</span>
                 <HiOutlineShoppingBag size={25} />
             </button>
         </div>
-       <button className="md:hidden">
+       <button className="md:hidden" onClick={()=>setActiveNavMobile(true)}>
             <FaBarsStaggered size={25}/>
         </button> 
     </header>

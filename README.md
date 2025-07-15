@@ -8,8 +8,9 @@ Ecommerce de tegnologia desarollado en react
 - Supabase
 - Tanstack Query
 - Zustand
-- Reack Hook Form
+- React Hook Form
 - Zod
+- React  Hook Resolvers
 
 # Librerias:
 

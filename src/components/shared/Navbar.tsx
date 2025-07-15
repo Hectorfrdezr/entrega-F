@@ -38,7 +38,7 @@ export const Navbar = () => {
 
             <div className="relative">
                 {/* User Nav*/ }
-                <Link to ='/account' className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">R</Link>
+                <Link to ='/login' className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">R</Link>
             </div>
             <button className="relative" onClick={()=> openSheet('cart')}>
                 <span className="absolute -bottom-2 -right-2 w-5 h-5 grid place-items-center bg-black text-white text-xs rounded-full">{totalItemInCart}</span>

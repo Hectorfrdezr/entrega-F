@@ -1,10 +1,19 @@
 import { useState } from "react"
+import { LuLoader } from "react-icons/lu";
 import { Link } from "react-router-dom"
+import { useLogin } from "../hooks";
 
 export const Loginpage = () => {
 
+    const { mutate, isPending} = useLogin();
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
+
+    
+    const onLogin = (e: React.FormEvent) => {
+        e.preventDefault();
+        mutate({email,password,});
+    }
 
   return (
     <div className="h-full flex flex-col items-center mt-12 gap-5">
@@ -14,8 +23,14 @@ export const Loginpage = () => {
         <p className="text-sm font-medium">
             ¡Que bueno tenerte de vuelta!
         </p>
-        <>
-        <form action="" className="flex flex-col gap-4 items-center w-full sm:w-[400px] lg:w-[500px] mt-10">
+        {
+            isPending ? (
+                <div className="w-full h-full felx justify-center mt-20">
+                 <LuLoader className="animate-spin" size={60}/>
+                </div>
+            ):(
+                <>
+        <form action="" className="flex flex-col gap-4 items-center w-full sm:w-[400px] lg:w-[500px] mt-10" onSubmit={onLogin}>
 
             <input type="email" placeholder="Ingresa tu correo"
             className="border border-slate-200 text-black px-5 py-4 placeholder:text-black text-sm rounded-full w-full"
@@ -37,6 +52,8 @@ export const Loginpage = () => {
                </Link> 
         </p>
         </>
+            )
+        }
     </div>
   )
 }

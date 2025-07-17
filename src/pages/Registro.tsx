@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import {z} from 'zod';
 import {useForm} from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRegister } from "../hooks";
+import { LuLoader } from "react-icons/lu";
 
 
 export const userRegisterSchema = z.object({
@@ -17,6 +19,7 @@ export type UserRegisterFormValues = z.infer<typeof userRegisterSchema>;
 
 export const Registro = () => {
 
+  
   const {register, handleSubmit, formState:{errors}} = useForm<UserRegisterFormValues>({
     defaultValues:{
       fullName:'',
@@ -26,9 +29,13 @@ export const Registro = () => {
     },
     resolver: zodResolver(userRegisterSchema),
   });
+  
+  const { mutate, isPending} = useRegister();
 
-  const onLogin =  handleSubmit(data => {
-    console.log(data);
+  const onRegister =  handleSubmit(data => {
+    const {email,password,fullName,phone} = data;
+
+    mutate({email,password,fullName,phone})
   })
 
   console.log(errors);
@@ -42,8 +49,13 @@ export const Registro = () => {
             ¡Para registrarse rellene el formulario!
         </p>
 
-         <>
-        <form action="" className="flex flex-col gap-4 items-center w-full sm:w-[400px] lg:w-[500px] mt-10" onSubmit={onLogin}>
+        {
+          isPending ?(
+            <div className="w-full h-full felx justify-center mt-20">
+              <LuLoader className="animate-spin" size={60}/>
+            </div>
+          ): (<>
+        <form action="" className="flex flex-col gap-4 items-center w-full sm:w-[400px] lg:w-[500px] mt-10" onSubmit={onRegister}>
 
             <input type="text" placeholder="Nombre y Apellido"
             className="border border-slate-200 text-black px-5 py-4 placeholder:text-black text-sm rounded-full w-full"
@@ -85,6 +97,8 @@ export const Registro = () => {
                </Link> 
         </p>
         </>
+        )};
+
     </div>
   )
 };

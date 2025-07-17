@@ -3,7 +3,7 @@ import { supabase } from "../supabase/client";
 interface IAuthRegister {
     email: string;
     password: string;
-    fullname: string;
+    fullName: string;
     phone?: string;
 };
 
@@ -13,7 +13,7 @@ interface IAuthLogin {
 };
 
 export const singUP = async ({
-    email,password,fullname,phone,
+    email,password,fullName,phone,
 }:IAuthRegister)=>{
     try{
        // 1. crear al usuario:
@@ -46,7 +46,7 @@ export const singUP = async ({
      //4. insertar los datos del usuario en la tabla customer(clientes):
     const {error:customerError} = await supabase.from('customers').insert({
         user_id: userId,
-        full_name: fullname,
+        full_name: fullName,
         phone,
         email,
     })

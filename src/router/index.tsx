@@ -1,6 +1,6 @@
-import { createBrowserRouter } from "react-router-dom";
-import { RootLayout } from "../layouts/RootLayout";
-import { AboutPage, CellPhones, HomePage, CellPhonePage, Loginpage, Registro} from "../pages";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import { AboutPage, CellPhones, HomePage, CellPhonePage, Loginpage, Registro, OrdersUserPage} from "../pages";
+import { ClientLayout, RootLayout } from "../layouts";
 
 export const router = createBrowserRouter([{
     path: '/',
@@ -29,6 +29,20 @@ export const router = createBrowserRouter([{
         {
             path:'registro',
             element: <Registro/>
+        },
+        {
+            path: 'account',
+            element: <ClientLayout/>,
+            children: [
+                {
+                    path: '',
+                    element: <Navigate to='/account/pedidos' />,
+                },
+                {
+                path: 'pedidos',
+                element: <OrdersUserPage/>
+            }
+        ] 
         },
     ]
 }]);

@@ -16,4 +16,4 @@ export const useUser = () => {
         session: data?.session,
         isLoading,
     };
-};
+}; 

@@ -1,11 +1,14 @@
 import { useState } from "react"
 import { LuLoader } from "react-icons/lu";
-import { Link } from "react-router-dom"
-import { useLogin } from "../hooks";
+import { Link, Navigate } from "react-router-dom"
+import { useLogin, useUser } from "../hooks";
+import { Loader } from "../components/shared/Loader";
 
 export const Loginpage = () => {
 
     const { mutate, isPending} = useLogin();
+    const {session, isLoading} = useUser();
+
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
 
@@ -14,6 +17,9 @@ export const Loginpage = () => {
         e.preventDefault();
         mutate({email,password,});
     }
+
+    if (isLoading) return <Loader/>;
+    if(session) return <Navigate to='/' />;
 
   return (
     <div className="h-full flex flex-col items-center mt-12 gap-5">

@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {z} from 'zod';
 import {useForm} from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRegister } from "../hooks";
+import { useRegister , useUser} from "../hooks";
 import { LuLoader } from "react-icons/lu";
+import { Loader } from "../components/shared/Loader";
 
 
 export const userRegisterSchema = z.object({
@@ -31,14 +32,15 @@ export const Registro = () => {
   });
   
   const { mutate, isPending} = useRegister();
-
+  const {session, isLoading} = useUser();
   const onRegister =  handleSubmit(data => {
     const {email,password,fullName,phone} = data;
 
     mutate({email,password,fullName,phone})
   })
 
-  console.log(errors);
+ if (isLoading) return <Loader/>;
+    if(session) return <Navigate to='/' />;
 
   return (
     <div className="h-full flex flex-col items-center mt-12 gap-5">

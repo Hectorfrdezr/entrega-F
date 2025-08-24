@@ -40,7 +40,7 @@ export const Registro = () => {
   })
 
  if (isLoading) return <Loader/>;
-    if(session) return <Navigate to='/' />;
+  if(session) return <Navigate to='/' />;
 
   return (
     <div className="h-full flex flex-col items-center mt-12 gap-5">

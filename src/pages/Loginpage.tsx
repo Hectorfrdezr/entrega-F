@@ -42,7 +42,7 @@ export const Loginpage = () => {
             className="border border-slate-200 text-black px-5 py-4 placeholder:text-black text-sm rounded-full w-full"
             value={email} onChange={e => setemail(e.target.value)}/>
             
-            <input type="email" placeholder="Ingresa tu contraseña"
+            <input type="password" placeholder="Ingresa tu contraseña"
             className="border border-slate-200 text-black px-5 py-4 placeholder:text-black text-sm rounded-full w-full" 
             value={password} onChange={e => setpassword(e.target.value)}/>
 

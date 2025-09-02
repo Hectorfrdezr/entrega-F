@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { useCartStore } from "../store"
+import { FormCheckout } from "../components/checkout/FormCheckout";
 
 export const CheckoutPage = () => {
 
@@ -22,9 +23,9 @@ export const CheckoutPage = () => {
       <main className="w-full h-full flex relative">
           {
             totalItems === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-5 h-full"
+              <div className="flex flex-col items-center justify-center gap-5 w-full"
               style={{
-                    minHeight: 'calc(100vh - 100px)'
+                    height: 'calc(100vh - 100px)'
                   }}>
                     <p>Su carro esta vacio.</p>
                     <Link to='/producto' className="py-4 bg-black rounded-full text-white px-7 text-xs uppercase tracking-widest font-semibold">
@@ -33,7 +34,7 @@ export const CheckoutPage = () => {
             ) : (
               <>
                 <div className="w-full md: w-[50%] p-10">
-                  {/*Formulario de direccion*/}
+                  <FormCheckout/>
                 </div>
                 <div className="bg-stone-100 w-[50%] sticky top-0 roght-0 p-10 hidden md:block"
                   style={{

@@ -5,3 +5,4 @@ export * from './CellPhonePage';
 export * from './Loginpage';
 export * from './Registro';
 export * from './OrdersUserPage';
+export * from './CheckoutPage';

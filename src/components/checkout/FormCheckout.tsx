@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form"
 import { InputAddress } from "./InputAddress"
-import { addressFormValues, addressSchema } from "../../lib/Validator"
+import { type AddressFormValues, addressSchema } from "../../lib/Validator"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { ItemsCheckout } from "./ItemsCheckout"
 
 export const FormCheckout = () => {
 
-    const {register,formState: {errors},handleSubmit,} = useForm<addressFormValues>({
+    const {register,formState: {errors},handleSubmit,} = useForm<AddressFormValues>({
         resolver: zodResolver(addressSchema)
     });
 
@@ -21,9 +22,38 @@ export const FormCheckout = () => {
                 
                 <h3 className="text-lg font-semibold tracking-normal">Entrega</h3>
 
-                <InputAddress/>
+                <InputAddress
+                    register={register}
+                    errors={errors}
+                    name='addressLine1'
+                    placeholder='Dirección principal'
+                />
+                <InputAddress
+                    register={register}
+                    errors={errors}
+                    name='addressLine2'
+                    placeholder='Dirección adicional (Opcional)'
+                />
+                <InputAddress
+                    register={register}
+                    errors={errors}
+                    name='state'
+                    placeholder='Estado/Provincia'
+                />
+                <InputAddress
+                    register={register}
+                    errors={errors}
+                    name='city'
+                    placeholder='Ciudad'
+                />
+                <InputAddress
+                    register={register}
+                    errors={errors}
+                    name='postalCode'
+                    placeholder='Codigo Postal'
+                />
 
-            <select className="border border-saltel-200 rounded-md p-3">
+            <select className="border border-slate-200 rounded-md p-3"{...register('country')}>
 
                 <option value="Chile">Chile</option>
             </select>
@@ -55,7 +85,7 @@ export const FormCheckout = () => {
             <h3 className="text-semibold text-3xl">
                 Resumen de compra
             </h3>
-            {/*Lista de elemento */}
+            <ItemsCheckout/>
         </div>
         <button  type="submit" className="bg-black text-white py-3.5 font-bold tracking.wide rounded-md mt-2">Finalizar Pedido</button>
         </form>

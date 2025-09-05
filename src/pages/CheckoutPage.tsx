@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { useCartStore } from "../store"
 import { FormCheckout } from "../components/checkout/FormCheckout";
+import { ItemsCheckout } from "../components/checkout/ItemsCheckout";
 
 export const CheckoutPage = () => {
 
@@ -33,7 +34,7 @@ export const CheckoutPage = () => {
               </div>
             ) : (
               <>
-                <div className="w-full md: w-[50%] p-10">
+                <div className="w-full md:w-[50%] p-10">
                   <FormCheckout/>
                 </div>
                 <div className="bg-stone-100 w-[50%] sticky top-0 roght-0 p-10 hidden md:block"
@@ -41,7 +42,7 @@ export const CheckoutPage = () => {
                     minHeight: 'calc(100vh - 100px)'
                   }}
                 >
-
+                    <ItemsCheckout/>
                 </div>
               </>
             )

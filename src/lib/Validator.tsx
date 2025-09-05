@@ -40,4 +40,4 @@ export const addressSchema = z.object({
 
 export type UserRegisterFormValues = z.infer<typeof userRegisterSchema>;
 
-export type addressFormValues = z.infer<typeof addressSchema>;
+export type AddressFormValues = z.infer<typeof addressSchema>;

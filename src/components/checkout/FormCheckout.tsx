@@ -3,6 +3,8 @@ import { InputAddress } from "./InputAddress"
 import { type AddressFormValues, addressSchema } from "../../lib/Validator"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ItemsCheckout } from "./ItemsCheckout"
+import { useCreateOrder } from "../../hooks"
+import { useCartStore } from "../../store"
 
 export const FormCheckout = () => {
 
@@ -10,9 +12,30 @@ export const FormCheckout = () => {
         resolver: zodResolver(addressSchema)
     });
 
+    const {mutate: createOrder, isPending } = useCreateOrder();
+
+    const cleanCart = useCartStore(state => state.cleanCart);
+    const cartItems = useCartStore(state => state.items);
+    const totalAmount = useCartStore (state => state.totalAmount);
+
+
     const onSubmit = handleSubmit(data =>{
-        console.log(data)
-    })
+        const orderInpunt = {
+            address : data,
+            cartItems: cartItems.map(item =>({
+                variantId: item.variantId,
+                quantity: item.quantity,
+                price: item.price,
+            })),
+            totalAmount,
+        };
+           
+        createOrder(orderInpunt, {
+                onSuccess: () =>{
+                cleanCart();
+            },
+        });
+        
   return (
     <div>
         <form className="flex flex-col gap-6"

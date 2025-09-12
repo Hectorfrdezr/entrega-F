@@ -6,8 +6,9 @@ import { FaBarsStaggered } from "react-icons/fa6";
 import {Logo} from "./Logo";
 import { useGlobalStore } from "../../store/Global.store";
 import { useCartStore } from "../../store";
-import { useUser } from "../../hooks";
+
 import { LuLoader } from "react-icons/lu";
+import { useUser } from "../../hooks/auth/useUser";
 
 export const Navbar = () => {
 

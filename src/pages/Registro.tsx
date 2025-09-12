@@ -1,10 +1,11 @@
 import { Link, Navigate } from "react-router-dom";
 import {useForm} from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRegister , useUser} from "../hooks";
+import { useRegister , } from "../hooks";
 import { LuLoader } from "react-icons/lu";
 import { Loader } from "../components/shared/Loader";
 import { userRegisterSchema, type UserRegisterFormValues } from "../lib/Validator";
+import { useUser } from "../hooks/auth/useUser";
 
 
 

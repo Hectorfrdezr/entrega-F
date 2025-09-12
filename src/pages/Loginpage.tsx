@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { LuLoader } from "react-icons/lu";
 import { Link, Navigate } from "react-router-dom"
-import { useLogin, useUser } from "../hooks";
+import { useLogin, } from "../hooks";
 import { Loader } from "../components/shared/Loader";
+import { useUser } from "../hooks/auth/useUser";
 
 export const Loginpage = () => {
 

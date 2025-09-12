@@ -1,9 +1,9 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom"
-import { signOut } from "../actions"
-import { useUser } from "../hooks";
+import { signOut } from "../actions";
 import { useEffect } from "react";
 import { supabase } from "../supabase/client";
 import { Loader } from "../components/shared/Loader";
+import { useUser } from "../hooks/auth/useUser";
 
 export const ClientLayout = () => {
 

@@ -46,8 +46,8 @@ export const createOrder = async(order: OrderInput) => {
     .from('addresses')
     .insert({
         customer_id: customerId,
-        address_line1: order.address.addessLine1,
-        address_line2: order.address.addessLine2,
+        address_line1: order.address.addressLine1,
+        address_line2: order.address.addressLine2,
         city: order.address.city,
         postal_code: order.address.postalCode,
         state: order.address.state,

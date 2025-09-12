@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { ItemsCheckout } from "./ItemsCheckout"
 import { useCreateOrder } from "../../hooks"
 import { useCartStore } from "../../store"
+import { ImSpinner2 } from "react-icons/im";
+
 
 export const FormCheckout = () => {
 
@@ -19,9 +21,9 @@ export const FormCheckout = () => {
     const totalAmount = useCartStore (state => state.totalAmount);
 
 
-    const onSubmit = handleSubmit(data =>{
-        const orderInpunt = {
-            address : data,
+    const onSubmit = handleSubmit (data =>{
+        const orderInput = {
+            address: data,
             cartItems: cartItems.map(item =>({
                 variantId: item.variantId,
                 quantity: item.quantity,
@@ -30,11 +32,19 @@ export const FormCheckout = () => {
             totalAmount,
         };
            
-        createOrder(orderInpunt, {
+        createOrder(orderInput, {
                 onSuccess: () =>{
                 cleanCart();
             },
         });
+    });
+
+    if (isPending){
+        return <div className="flex flex-col gap-3 h-screen items-center justify-center">
+            <ImSpinner2 className='animate-spin h-10 w-10'/>
+            <p className="text-sm font-medium">Estamos procesando tu pedido</p>
+        </div>
+    }
         
   return (
     <div>

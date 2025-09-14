@@ -36,7 +36,7 @@ const updateQuantity = useCartStore (state => state.updateQuantity);
     }
 
   return (
-    <li className="flex justify-between items-center gap-5">
+    <ul className="flex justify-between items-center gap-5">
         <div className="flex">
             <img src={item.image} alt={item.name} className="w-20 h-20 object-contain" />
         </div>
@@ -64,6 +64,6 @@ const updateQuantity = useCartStore (state => state.updateQuantity);
                     Eliminar</button>     
             </div>
         </div>
-    </li>
+    </ul>
   )
 }

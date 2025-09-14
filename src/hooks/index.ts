@@ -7,6 +7,7 @@ export * from './products/useProduct';
 //Autentificaciones
 export * from './auth/useLogin'
 export * from './auth/useRegister'
+export * from './auth/useUser'
 
 //Ordenes
 export * from './orders/useCreateOrders'

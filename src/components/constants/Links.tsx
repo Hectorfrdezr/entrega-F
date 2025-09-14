@@ -27,7 +27,7 @@ export const socialLinks =[
         icon: <FaFacebook/>,
     },
     {
-        id: 1,
+        id: 2,
         title: 'Twitter',
         href: 'http://www.twitter.com',
         icon: <FaTwitter/>,

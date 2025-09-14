@@ -48,7 +48,7 @@ export type Database = {
           created_at: string
           customer_id: string
           id: string
-          postal_code: string | null
+          postal_code?: string | null
           state: string
         }
         Insert: {

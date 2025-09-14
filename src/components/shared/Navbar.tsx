@@ -6,9 +6,10 @@ import { FaBarsStaggered } from "react-icons/fa6";
 import {Logo} from "./Logo";
 import { useGlobalStore } from "../../store/Global.store";
 import { useCartStore } from "../../store";
-
+import { useUser } from "../../hooks";
 import { LuLoader } from "react-icons/lu";
-import { useUser } from "../../hooks/auth/useUser";
+
+
 
 export const Navbar = () => {
 
@@ -51,7 +52,7 @@ export const Navbar = () => {
                 : session ? (
                     <div className="relative">
                 {/* User Nav*/ }
-                <Link to ='/login' className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">R</Link>
+                <Link to ='/account' className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">R</Link>
             </div>
                 ):(
                     <Link to={'/login'}>

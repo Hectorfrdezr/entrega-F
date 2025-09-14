@@ -3,17 +3,18 @@ import { signOut } from "../actions";
 import { useEffect } from "react";
 import { supabase } from "../supabase/client";
 import { Loader } from "../components/shared/Loader";
-import { useUser } from "../hooks/auth/useUser";
+import { useUser } from "../hooks";
+
 
 export const ClientLayout = () => {
 
-const {session, isLoading:isLoadingSession} = useUser();
+const { session, isLoading:isLoadingSession} = useUser();
 
 const navigate = useNavigate();
 
 useEffect(() => {
-    supabase.auth.onAuthStateChange(async(event,session)=>{
-        if(event === 'SIGNED_OUT' || !session){
+    supabase.auth.onAuthStateChange(async(event,currentSession)=>{
+        if(event === 'SIGNED_OUT' || !currentSession){
             navigate('/login');
         }
     });

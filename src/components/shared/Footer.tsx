@@ -8,7 +8,7 @@ export const Footer = () => {
     
     <Link to='/' className="text-2xl font-bold tracking-tighter transition-all text-white flex-1">
        
-            Celulares Barato
+           LaptopPC
         
      </Link>
 
@@ -45,7 +45,7 @@ export const Footer = () => {
             Siguenos
         </p>
         <p className="text-xs leading-6">
-            No te pierdas las novedades que celulares baratos tiene para ti.
+            No te pierdas las novedades que laptopPC tiene para ti.
         </p>
         <div className="flex">
             {

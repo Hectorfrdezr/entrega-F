@@ -51,7 +51,7 @@ export const createOrder = async(order: OrderInput) => {
         city: order.address.city,
         postal_code: order.address.postalCode,
         state: order.address.state,
-        country: order.address.country
+        country: order.address.country,
     })
     .select()
     .single()

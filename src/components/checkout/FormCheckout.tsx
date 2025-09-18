@@ -111,7 +111,7 @@ export const FormCheckout = () => {
                 <p>Rut:123456789000</p>
                 <p>Tipo de cuenta: Corriente</p>
                 <p>Número de cuenta:123456789012</p>
-                <p>La información será compartida nuevamnete una vez jaya finalizado la compra</p>
+                <p>La información será compartida nuevamnete una vez haya finalizado la compra</p>
             </div>
         </div>
         <div className="flex flex-col gap-6">

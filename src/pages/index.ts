@@ -7,3 +7,4 @@ export * from './Registro';
 export * from './OrdersUserPage';
 export * from './CheckoutPage';
 export * from './ThankyouPage';
+export * from './OrderUserPage';

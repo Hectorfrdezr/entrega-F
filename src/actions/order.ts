@@ -117,3 +117,96 @@ export const createOrder = async(order: OrderInput) => {
     
     return orderData; 
 };
+
+export const getOrdersByCustomerId = async () => {
+    const {data, error} = await supabase.auth.getUser();
+
+    if(error){
+        console.log(error);
+        throw new Error(error.message);
+    }
+
+    const {data: customer, error: customerError} = await supabase
+    .from('customers')
+    .select('id')
+    .eq('user_id', data.user.id)
+    .single();
+
+    if(customerError){
+        console.log(customerError);
+        throw new Error(customerError.message);
+    }
+
+    const customerId = customer.id;
+
+    const {data: orders, error: orderError} = await supabase
+    .from('orders')
+    .select('id, total_amaount, status, created_ad')
+    .eq('customer_id', customerId)
+    .order('created_at', {
+        ascending: false,
+    });
+
+    if(orderError){
+        console.log(orderError);
+        throw new Error(orderError.message)
+    }
+    return orders;
+};
+
+export const getOrderById = async(orderId: number) => {
+     const {data, error} = await supabase.auth.getUser();
+
+    if(error){
+        console.log(error);
+        throw new Error(error.message);
+    }
+
+    const {data: customer, error: customerError} = await supabase
+    .from('customers')
+    .select('id')
+    .eq('user_id', data.user.id)
+    .single();
+
+    if(customerError){
+        console.log(customerError);
+        throw new Error(customerError.message);
+    }
+
+    const customerId = customer.id;
+    
+    const {data:order, error:errorUSer} = await supabase
+    .from('orders')
+    .select('*,addresses(*),customers(full_name, email), order_items(quantity, price, variants(color_name, storage, products(name, images)))')
+    .eq('customer_id', customerId).eq('id', orderId)
+    .single();
+
+    if(errorUSer){
+        console.log(errorUSer);
+        throw new Error(errorUSer.message)
+    }
+    return{
+        customer:{
+            email: order?.customers?.email,
+            full_name: order.customers?.full_name,
+        },
+        totalAmount: order.total_amount,
+        status: order.status,
+        address:{
+            addressLine1: order.addresses?.address_line1,
+            addressLine2: order.addresses?.address_line2,
+            city: order.addresses?.city,
+            state: order.addresses?.state,
+            postalCode: order.addresses?.postal_code,
+            country: order.addresses?.country,
+            },
+        orderItems: order.order_items.map(item => ({
+            quantity: item.quantity,
+            price: item.price,
+            color_name: item.variants?.color_name,
+            storage: item.variants?.storage,
+            productName: item.variants?.products.name,
+            productImages: item.variants.products.images[0],
+        }))   
+        };
+    };

@@ -141,7 +141,7 @@ export const getOrdersByCustomerId = async () => {
 
     const {data: orders, error: orderError} = await supabase
     .from('orders')
-    .select('id, total_amount, status, created_at')
+    .select('id,address_id, total_amount, status, created_at')
     .eq('customer_id', customerId)
     .order('created_at', {
         ascending: false,

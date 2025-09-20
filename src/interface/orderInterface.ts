@@ -18,6 +18,7 @@ export interface OrderInput {
 export interface OrderItemSingle{
         created_at: string;
         id: number;
+        address_id: string;
         status: string;
         total_amount: number;
 };

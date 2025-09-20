@@ -20,7 +20,7 @@ export const prepareProducts = (products: product[]) => {
       const existingColor = acc.find(item => item.color === variant.color);
 
       if (existingColor) {
-        // si el color existe comparar precio
+        // si el color existe comparar precio:
         existingColor.price = Math.min(existingColor.price, variant.price);
       } else {
         acc.push({
@@ -33,10 +33,10 @@ export const prepareProducts = (products: product[]) => {
       return acc;
     }, []);
 
-    // obtener el precio más bajo
+    // obtener el precio más bajo:
     const price = Math.min(...colors.map(item => item.price));
 
-    // devolver el producto formateado
+    // devolver el producto formateado:
     return {
       ...product,
       price,
@@ -44,3 +44,34 @@ export const prepareProducts = (products: product[]) => {
     };
   });
 };
+
+
+//Funcion para formatear la fecha  dd/mm/year:
+
+export const  formateDatelong = (date:string): string=>{
+    const dateObject = new Date(date);
+
+    return dateObject.toLocaleDateString('es-ES',{
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+};
+
+//funcion para obtener el estado del pedido en español:
+
+export const getStatus = (status: string): string =>{
+    switch(status){
+      case 'pending':
+        return 'Pendiente';
+      case 'processing':
+        return 'Procesando';
+      case 'Shipped':
+        return 'Enviado';    
+      case 'Delivered':
+        return 'Entregado'; 
+        default:
+          return status;   
+    }
+};
+

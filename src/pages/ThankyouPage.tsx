@@ -126,4 +126,4 @@ export const ThankyouPage = () => {
       </main>
       </div>
   )
-}
+};

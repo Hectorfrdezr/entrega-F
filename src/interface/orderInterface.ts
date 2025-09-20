@@ -13,4 +13,11 @@ export interface OrderInput {
         price: number;
     }[];
     totalAmount: number;
-}
+};
+
+export interface OrderItemsSingle{
+        createAt: string;
+        id: number;
+        status: string;
+        total_amount: number;
+};

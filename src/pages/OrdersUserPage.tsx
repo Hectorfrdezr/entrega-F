@@ -1,7 +1,15 @@
 
 import { Link } from 'react-router-dom'
+import { useOrders } from '../hooks'
+import { Loader } from '../components/shared/Loader';
+import TableOrders from '../components/Orders/TableOrders';
 
 export const OrdersUserPage = () => {
+
+    const {data:Orders, isLoading} = useOrders();
+
+    if(isLoading || !Orders) return <Loader/> 
+
   return (
     <div className='flex flex-col gap-6 items-center'>
         <div className="flex gap-2">
@@ -9,11 +17,10 @@ export const OrdersUserPage = () => {
                 Pedidos
             </h1>
             <span className='w-5 h-5 rounded-full bg-black text-white text-[11px] flex justify-center items-center mt-1'>
-                30
+                {Orders.length}
             </span>
         </div>
-        {
-            [].length === 0 ? (
+        {Orders.length === 0 ? (
                 <>
                 <p className="text-slate-600 text-[13px]">
                     Todavia no has hecho ningun pedido
@@ -23,7 +30,7 @@ export const OrdersUserPage = () => {
                 </Link>
             </>
             ):(
-                <div>Tabla de ordenes</div>
+                <TableOrders orders={Orders}/>
             )}
     </div>
   )

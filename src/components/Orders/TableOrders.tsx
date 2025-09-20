@@ -1,7 +1,7 @@
-import type { OrderItemsSingle } from "../../interface";
+import type { OrderItemSingle } from "../../interface";
 
 interface Props {
-    orders: OrderItemsSingle[];
+    orders:OrderItemSingle[];
 
 }
 
@@ -27,7 +27,7 @@ const TableOrders = ({orders}: Props) => {
                     orders.map(order =>(
                         <tr key={order.id} className="cursor-pointer hover:bg-gray-100 transition-colors duration-200">
                                 <td className="p-4 font-medium tracking-tighter">{order.id}</td>
-                                <td className="p-4 font-medium tracking-tighter">{order.createAt}</td>
+                                <td className="p-4 font-medium tracking-tighter">{order.created_at}</td>
                                 <td className="p-4 font-medium tracking-tighter">{order.status}</td>
                                 <td className="p-4 font-medium tracking-tighter">{order.total_amount}</td>
                         </tr>

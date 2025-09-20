@@ -15,8 +15,8 @@ export interface OrderInput {
     totalAmount: number;
 };
 
-export interface OrderItemsSingle{
-        createAt: string;
+export interface OrderItemSingle{
+        created_at: string;
         id: number;
         status: string;
         total_amount: number;

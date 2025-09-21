@@ -6,7 +6,7 @@ import { FaBarsStaggered } from "react-icons/fa6";
 import {Logo} from "./Logo";
 import { useGlobalStore } from "../../store/Global.store";
 import { useCartStore } from "../../store";
-import { useUser } from "../../hooks";
+import { useCustomer, useUser } from "../../hooks";
 import { LuLoader } from "react-icons/lu";
 
 
@@ -22,6 +22,8 @@ export const Navbar = () => {
     const {session, isLoading} = useUser();
 
     const userId = session?.user.id;
+
+    const {data:customer} = useCustomer(userId!)
 
   return (
     <header className="bg-white text-black py-4 flex items-center justify-between px-5 border-b border-slate-200 lg:px-12">
@@ -52,7 +54,7 @@ export const Navbar = () => {
                 : session ? (
                     <div className="relative">
                 {/* User Nav*/ }
-                <Link to ='/account' className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">R</Link>
+                <Link to ='/account' className="border-2 border-slate-700 w-9 h-9 rounded-full grid place-items-center text-lg font-bold">{customer && customer.full_name[0]}</Link>
             </div>
                 ):(
                     <Link to={'/login'}>

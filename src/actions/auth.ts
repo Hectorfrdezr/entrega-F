@@ -88,4 +88,19 @@ export const getSession = async () =>{
         console.log(error);
         throw new Error('Error al obtener sesión');
     }return data;
-}
+};
+
+export const getUserData = async (userId: string) =>{
+    const {data, error} = await supabase
+    .from('customers')
+    .select('*')
+    .eq('user_id',userId)
+    .single();
+    
+    if(error){
+        console.log(error);
+        throw new Error(error.message);
+    }
+
+    return data;
+};

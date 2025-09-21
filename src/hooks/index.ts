@@ -8,6 +8,7 @@ export * from './products/useProduct';
 export * from './auth/useLogin';
 export * from './auth/useRegister';
 export * from './auth/useUser';
+export * from './auth/useCustomer';
 
 //Ordenes
 export * from './orders/useCreateOrders';

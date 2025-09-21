@@ -1,8 +1,11 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { useOrder } from "../hooks/orders/useOrder";
 import { Loader } from "../components/shared/Loader";
 import { CiCircleCheck } from "react-icons/ci";
 import { formatPrice } from "../helpers";
+import { useEffect } from "react";
+import { supabase } from "../supabase/client";
+import { useUser } from "../hooks";
 
 
 
@@ -12,9 +15,21 @@ export const ThankyouPage = () => {
 
     const {data, isLoading, isError} = useOrder(Number(id));
 
+    const {isLoading:isLoadingSession} = useUser();
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        supabase.auth.onAuthStateChange(async(event,currentSession)=>{
+            if(event === 'SIGNED_OUT' || !currentSession){
+                navigate('/login');
+            }
+        });
+    },[navigate]);
+
     if(isError ) return <div>Error cargar la order</div>
 
-    if(isLoading || !data) return <Loader/>;
+    if(isLoading || !data || isLoadingSession) return <Loader/>;
 
 
   return (

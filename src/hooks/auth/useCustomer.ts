@@ -8,7 +8,7 @@ export const useCustomer = (userId: string) => {
     const {data,
         isLoading} 
         = useQuery({
-       queryKey:['customer', userId],
+       queryKey:['customers', userId],
        queryFn: ()=> getUserData(userId),
        enabled: !!userId,
        retry: false,
@@ -16,7 +16,7 @@ export const useCustomer = (userId: string) => {
     });
 
     return{
-        session: data,
+        data,
         isLoading,
     };
 }; 

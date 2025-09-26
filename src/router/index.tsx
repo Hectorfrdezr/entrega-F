@@ -1,8 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { AboutPage, CellPhones, HomePage, CellPhonePage, Loginpage, Registro, OrdersUserPage,CheckoutPage, ThankyouPage} from "../pages";
-import { ClientLayout, RootLayout } from "../layouts";
+import { AboutPage, CellPhones, HomePage, CellPhonePage, Loginpage, Registro, OrdersUserPage,CheckoutPage, ThankyouPage,DashboardProductsPage} from "../pages";
+import { ClientLayout, RootLayout,DashboardLayout} from "../layouts";
 import OrderUserPage from "../pages/OrderUserPage";
-
 
 export const router = createBrowserRouter([{
     path: '/',
@@ -60,5 +59,19 @@ export const router = createBrowserRouter([{
     {
         path: '/checkout/:id/thank-you',
         element: <ThankyouPage/>
+    },
+    {
+        path: '/dashboard',
+        element: <DashboardLayout/>,
+        children:[
+            {
+                index: true,
+                element:<Navigate to='/dashboard/productos'/>,
+            },
+            {
+                path: 'productos',
+                element: <DashboardProductsPage/>,
+            }
+        ]
     }
 ]);

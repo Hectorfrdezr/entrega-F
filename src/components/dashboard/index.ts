@@ -4,4 +4,6 @@ export * from './Sidebar'
 
 
 
-//PRODUCTOS
+//PRODUCTOS//
+
+export * from './products/TableProducts'

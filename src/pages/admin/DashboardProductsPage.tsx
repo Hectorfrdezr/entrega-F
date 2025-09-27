@@ -1,5 +1,6 @@
 import { IoAddCircleOutline } from "react-icons/io5"
 import { Link } from "react-router-dom"
+import { TableProducts } from "../../components/dashboard"
 
 
 export const DashboardProductsPage = () => {
@@ -9,7 +10,7 @@ export const DashboardProductsPage = () => {
           <IoAddCircleOutline className="inline-block"/>Nuevo Producto
         </Link>
 
-        <TableProduct/>
+        <TableProducts/>
     </div>
   )
 }

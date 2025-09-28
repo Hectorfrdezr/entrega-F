@@ -2,6 +2,11 @@ import { useState } from "react"
 import { FaEllipsis } from "react-icons/fa6"
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { useProducts } from "../../../hooks";
+import { Loader } from "../../shared/Loader";
+import { formateDatesort, formatPrice } from "../../../helpers";
+import { Pagination } from "../../shared/Pagination";
+import { CeldTableProduct } from "./CeldTableProduct";
 
 const tableHeaders = [
     '',
@@ -13,20 +18,42 @@ const tableHeaders = [
     '',
 ]
 
-
-
-
-
 export const TableProducts = () => {
+
+    const [selectedVariants, setSelectedVariants] = useState<{[key: string]:number}>({});
 
     const [openMenuIndex, setOpenMenuIndex] = useState <number | null>(null);
 
+    const [page, setPage] = useState(1)
+
+    const {products,isLoading,totalProducts} = useProducts({page});
+    
+    const handleMenuToggle = (index:number) =>{
+        if(openMenuIndex === index){
+            setOpenMenuIndex(null);
+        }else{
+            setOpenMenuIndex(index);
+        }
+    };
+
+    const handleVariantChange = (productId:string,VariantIndex:number) =>{
+        setSelectedVariants({
+            ...selectedVariants,
+            [productId]:VariantIndex
+        })
+    };
+    
     const handleDeleteProduct = (id:string) =>{
         console.log(id)
     }
+    if (isLoading) return <Loader />
 
-  return (
-    <div className="flex flex-col flex-1 border border-gray-200 rounded-lg p-5 bg-white">
+    if (!products || products.length === 0) {
+        return <p>No hay productos disponibles</p>
+        }
+    
+    return (
+        <div className="flex flex-col flex-1 border border-gray-200 rounded-lg p-5 bg-white">
         <h1 className="font-bold text-xl">Productos</h1>
         <p className="text-sm mt-1 mb-8 font-regular text-gray-500">
             Gestiona tus productos y mira las estadisticas de tus ventas
@@ -45,35 +72,56 @@ export const TableProducts = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    {
+                        products?.map((product, index)=>{
+
+                            const selectedVariantIndex = selectedVariants[product.id] ?? 0;
+
+                            const selectedVariant = product.variants[selectedVariantIndex];
+
+                            return(
+                    <tr key={index}>
                         <td className="p-4 align-middle sm:table-cell">
-                            <img src="1" alt="Imagen Product" loading="lazy" decoding="async" className="w-16 h-16 aspect-square rounded-md object-contain" />
+                            <img src={product.images[0]} 
+                            alt="Imagen Product" 
+                            loading="lazy" 
+                            decoding="async" 
+                            className="w-16 h-16 aspect-square rounded-md object-contain" />
                         </td>
+                        <CeldTableProduct content={product.name}/>
                         <td className="p-4 font-medium tracking-tighter">
-                            Producto 1
+                            <select className="border border-gary-300 rounded-md p-1 w-full"
+                            onChange={e => handleVariantChange(product.id,Number(e.target.value))}
+                            value={selectedVariantIndex}>
+                                {
+                                    product.variants.map((variant,variantIndex)=>(
+                                        <option 
+                                        key={variant.id}
+                                        value={variantIndex}
+                                        >
+                                            {variant.color_name} - {variant.storage}  
+                                        </option>
+                                    ))
+                                }
+                            </select>
                         </td>
-                        <td className="p-4 font-medium tracking-tighter">
-                            Variante 1
-                        </td>
-                        <td className="p-4 font-medium tracking-tighter">
-                            35.00
-                        </td>
-                        <td className="p-4 font-medium tracking-tighter">
-                            12
-                        </td>
-                        <td className="p-4 font-medium tracking-tighter">
-                            12/12/2025
-                        </td>
+                        <CeldTableProduct content={formatPrice(selectedVariant.price)}/>
+                        
+                        <CeldTableProduct content= {selectedVariant.stock.toString()}/>
+
+                       <CeldTableProduct content={formateDatesort(product.created_at)}/>
                         <td className="relative">
-                            <button className="text-slate-900" onClick={()=>setOpenMenuIndex(1)}><FaEllipsis/></button>
+                            <button 
+                            className="text-slate-900" 
+                            onClick={()=> handleMenuToggle(index)}><FaEllipsis/></button>
                             {
-                                openMenuIndex === 1 && (
+                                openMenuIndex === index && (
                                     <div className="absolute right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-xl z-10 w-[120px]" role="menu">
-                                        <Link to={`/dashboard/productos/editar/${'test-prueba'}`}
+                                        <Link to={`/dashboard/productos/editar/${product.slug}`}
                                         className="flex items-center gap-1 w-full text-left px-4 py-2 text-xs font-medium text-gray-700 hover:bg:gray-100">
                                         Editar <HiOutlineExternalLink size={13} className="inline-block"/>
                                         </Link>
-                                        <button className="block w-full text-left px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-100" onClick={() => handleDeleteProduct('1')}>
+                                        <button className="block w-full text-left px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-100" onClick={() => handleDeleteProduct(product.id)}>
                                             Eliminar
                                         </button>
                                     </div>
@@ -81,10 +129,22 @@ export const TableProducts = () => {
                             }
                         </td>
                     </tr>
+                            )
+                        })
+                    }
                 </tbody>
 
             </table>
         </div>
+
+        {/*paginacion*/}
+        <Pagination
+        page ={page}
+        setPage={setPage}
+        totalItems={totalProducts}>
+        
+        </Pagination>            
+        
     </div>
   )
 }

@@ -75,3 +75,14 @@ export const getStatus = (status: string): string =>{
     }
 };
 
+//funcion para formatear fecha dd/mm/yy:
+
+export const  formateDatesort = (date:string): string=>{
+    const dateObject = new Date(date);
+
+    return dateObject.toLocaleDateString('es-ES',{
+      year: 'numeric',
+      month: '2-digit',
+      day: 'numeric'
+    });
+};

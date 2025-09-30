@@ -7,4 +7,5 @@ export * from './Sidebar'
 //PRODUCTOS//
 
 export * from './products/TableProducts';
-export * from './products/CeldTableProduct'
+export * from './products/CeldTableProduct';
+export * from './products/FormProduct';

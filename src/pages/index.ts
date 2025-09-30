@@ -13,3 +13,4 @@ export * from './OrderUserPage';
 // PAGINAS ADMIN//
 
 export * from './admin/DashboardProductsPage';
+export * from './admin/DashboardNewProductPage';

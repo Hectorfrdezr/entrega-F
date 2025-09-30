@@ -6,7 +6,7 @@ import { TableProducts } from "../../components/dashboard"
 export const DashboardProductsPage = () => {
   return (
     <div className="h-full flex flex-col gap-2">
-        <Link to='/dasboard/products/new' className="bg-black text-white flex items-center self-end py-[6px] px-2 rounded-md text-sm gap-1 font-semibold">
+        <Link to='/dasboard/productos/new' className="bg-black text-white flex items-center self-end py-[6px] px-2 rounded-md text-sm gap-1 font-semibold">
           <IoAddCircleOutline className="inline-block"/>Nuevo Producto
         </Link>
 

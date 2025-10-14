@@ -1,8 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form"
-import { productSchema } from "../../../lib/Validator";
+import { productSchema, type ProductFormValues } from "../../../lib/Validator";
 import { IoArrowBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { SectionForProduct } from "./SectionForProduct";
+import { InputForm } from "./InputForm";
+import { FeaturesInput } from "./FeaturesInput";
 
 interface Props{
 
@@ -14,7 +17,7 @@ interface Props{
 
 export const FormProduct = ({titleForm}:Props) => {
 
-      const {register, handleSubmit,formState:{errors},setValue,watch,control} = useForm(
+      const {register, handleSubmit,formState:{errors},setValue,watch,control} = useForm<ProductFormValues>(
         {
           resolver: zodResolver(productSchema)
         }
@@ -41,6 +44,30 @@ export const FormProduct = ({titleForm}:Props) => {
 
         <form className="grid grid-cols-1 lg:grid-cols-3 gap-8 auto-rows-max flex-1" onSubmit={onSubmit}>
 
+            <SectionForProduct titleSection="Detalles del Producto" className="lg:col-span-2 lg:row-span-2">
+              <input type="text" />
+              <InputForm
+                type="text"
+                placeholder="Ejemplo: iphone 13 Pro max"
+                label="nombre"
+                name='name'
+                register={register}
+                errors={errors}
+                required={true}
+              />
+              <FeaturesInput control={control} errors={errors}/>
+            </SectionForProduct>
+
+
+            <div className="flex gap-3 absolute top-0 right-0">
+                <button className="btn-secondary-outline"
+                type='button'
+                onClick={() => navigate(-1)}>Calncelar</button>
+
+                <button className="btn-primary" 
+                type='submit'
+                >Guardar Producto</button>
+            </div>
         </form>
     </div>
   )

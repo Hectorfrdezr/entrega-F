@@ -9,7 +9,7 @@ interface Props{
     name: keyof ProductFormValues;
     register: UseFormRegister<ProductFormValues>;
     errors: FieldErrors<ProductFormValues>;
-    required: boolean;
+    required?: boolean;
 }
 
 

@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { SectionForProduct } from "./SectionForProduct";
 import { InputForm } from "./InputForm";
 import { FeaturesInput } from "./FeaturesInput";
+import { useEffect } from "react";
+import { generateSlug } from "../../../helpers";
 
 interface Props{
 
@@ -28,6 +30,15 @@ export const FormProduct = ({titleForm}:Props) => {
       const onSubmit = handleSubmit((data) => {
         console.log(data)
       });
+
+      const watchNAme = watch('name');
+
+      useEffect(()=>{
+          if(!watchNAme)return
+
+          const generatedSlug = generateSlug(watchNAme)
+          setValue('slug', generatedSlug, {shouldValidate:true})
+      },[watchNAme, setValue])
 
   return (
     <div className="flex flex-col gap-6 relative">
@@ -58,13 +69,35 @@ export const FormProduct = ({titleForm}:Props) => {
               <FeaturesInput control={control} errors={errors}/>
             </SectionForProduct>
 
+            <SectionForProduct>
+              <InputForm
+                type="text"
+                label='slug'
+                placeholder="Iphone-13-pro-max"
+                name='slug'
+                register={register}
+                errors={errors}
+              />
+              <InputForm
+                type="text"
+                placeholder="Apple"
+                label='Marca'
+                name='brand'
+                register={register}
+                errors={errors}
+                required
+              />
+            </SectionForProduct>
 
+              <SectionForProduct titleSection="Variantes del Producto" className="lg:col-span-2 h-fit">
+                  <VariantsInput/>
+              </SectionForProduct>
             <div className="flex gap-3 absolute top-0 right-0">
-                <button className="btn-secondary-outline"
+                <button className=" border border-slate-400 text-slate-600 py-2 px-3 text-sm font-medium rounded-md"
                 type='button'
                 onClick={() => navigate(-1)}>Calncelar</button>
 
-                <button className="btn-primary" 
+                <button className="bg-black text-white py-2 px-3 text-sm font-medium rounded-md" 
                 type='submit'
                 >Guardar Producto</button>
             </div>

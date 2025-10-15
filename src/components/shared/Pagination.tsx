@@ -32,7 +32,7 @@ export const Pagination = ({totalItems, page, setPage}:Props) => {
         </p>
 
         <div className="flex gap-3">
-            <button className={btn.paginate}
+            <button className= 'border border-slate-700 rouded-md font-semibold text-xs py-1 px-3 hover:bg-slate-700 hover:text-white transition-all disabled::opacity-50 disabled:cursor-not-allowed disabled:border-slate-800 disabled:hover:bg-white disabled:hover:text-slate-700'
             onClick={handlePrevPage}
             disabled = {page === 1}>
                 anterior

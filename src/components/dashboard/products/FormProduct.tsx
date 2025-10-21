@@ -8,6 +8,7 @@ import { InputForm } from "./InputForm";
 import { FeaturesInput } from "./FeaturesInput";
 import { useEffect } from "react";
 import { generateSlug } from "../../../helpers";
+import { VariantsInput } from "./VariantsInput";
 
 interface Props{
 
@@ -90,7 +91,8 @@ export const FormProduct = ({titleForm}:Props) => {
             </SectionForProduct>
 
               <SectionForProduct titleSection="Variantes del Producto" className="lg:col-span-2 h-fit">
-                  <VariantsInput/>
+                  <VariantsInput 
+                  control={control} errors={errors} register={register}/>
               </SectionForProduct>
             <div className="flex gap-3 absolute top-0 right-0">
                 <button className=" border border-slate-400 text-slate-600 py-2 px-3 text-sm font-medium rounded-md"

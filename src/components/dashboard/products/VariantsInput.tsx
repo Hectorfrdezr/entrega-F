@@ -1,6 +1,6 @@
-import { useFieldArray, type Control, type FieldErrors, type UseFormRegister } from "react-hook-form"
+import { useFieldArray, useWatch, type Control, type FieldErrors, type UseFormRegister } from "react-hook-form"
 import type { ProductFormValues } from "../../../lib/Validator"
-import { IoIosAddCircleOutline, IoIosClipboard, IoIosCloseCircle } from "react-icons/io"
+import { IoIosAddCircleOutline,  IoIosCloseCircle } from "react-icons/io"
 import { useEffect, useState } from "react"
 
 interface Props{
@@ -36,6 +36,26 @@ export const VariantsInput = ({control,errors,register}:Props) => {
 
     const toggleColorActive = (index:number) =>{
         setColorActive(prev=> prev.map((item, i)=>i === index ? !item : item))
+    };
+
+    //Usar useWacth una sola vez para observar los valores del color y el colorName
+
+    const colorValues = useWatch({
+        control,
+        name: fields.map((_,index)=> `variants.${index}.color`as const)
+    });
+    const colorNAmeValues = useWatch({
+        control,
+        name: fields.map((_,index)=> `variants.${index}.colorName`as const)
+    });
+
+    const getFirstError = (variantError: FieldErrors<ProductFormValues['variants'][number]>)=>{
+        if(variantError){
+            const keys= Object.keys(variantError) as (keyof typeof variantError)[];
+            if(keys.length > 0 ){
+                return variantError[keys[0]]?.message;
+            }
+        }
     };
 
  useEffect(()=>{
@@ -76,15 +96,17 @@ export const VariantsInput = ({control,errors,register}:Props) => {
                                         <div className="absolute bg-stone-100 rounded-md bottom-8 left-[40px] p-1 w-[100px] h-fit space-y-2">
                                             <input type="color" {...register(`variants.${index}.color`)} className="rounded-md px-3 py-1.5 w-full"/>
 
-                                            <input type="text" placeholder="Gris"
+                                            <input type="text" placeholder="Negro"
                                             {...register(`variants.${index}.colorName`)} 
                                             className="rounded-md py-1.5 w-full text-xs focus:outline-none font-semibold placeholder:font-normal"/>
                                         </div>
                                     )}
                                     <button className="border w-full h-8 cursor-pointer rounded text-xs font-medium flex items-center justify-center" type="button" onClick={()=> toggleColorActive(index)}>
                                         {
-                                           true ? (
-                                            <span className={`inline-block w-4 h-4 rounded-full bg-block`}/>
+                                           colorValues[index] && colorNAmeValues
+                                           [index] ? (
+                                            <span className={`inline-block w-4 h-4 rounded-full bg-block`}
+                                            style={{backgroundColor: colorValues[index]}}/>
                                            ):('Añadir color') 
                                         }
                                     </button>
@@ -95,14 +117,13 @@ export const VariantsInput = ({control,errors,register}:Props) => {
                                     <IoIosCloseCircle size={20} />
                                 </button>
                              </div>
-                             {
-                                errors.variants && errors.variants[index] && (
+                        </div>
+                             {errors.variants && errors.variants[index] && (
                                     <p className="text-red-500 text-xs mt-1">
-                                        error mientras tanto
+                                        {getFirstError(errors.variants[index])}
                                     </p>
                                 )
                              }
-                        </div>
                      </div>   
                     ))}
         </div>

@@ -9,6 +9,8 @@ import { FeaturesInput } from "./FeaturesInput";
 import { useEffect } from "react";
 import { generateSlug } from "../../../helpers";
 import { VariantsInput } from "./VariantsInput";
+import { UploaderImages } from "./UploaderImages";
+import { Editor } from "./Editor";
 
 interface Props{
 
@@ -94,6 +96,23 @@ export const FormProduct = ({titleForm}:Props) => {
                   <VariantsInput 
                   control={control} errors={errors} register={register}/>
               </SectionForProduct>
+
+              <SectionForProduct titleSection="imagines del producto">
+                <UploaderImages
+                errors={errors}
+                setValue={setValue}
+                watch={watch}/>
+              </SectionForProduct>
+
+             <SectionForProduct titleSection="Descripción del producto"
+             className="col-span-full"
+             >
+                <Editor 
+                  setValue={setValue}
+                  errors={errors}
+                />
+              </SectionForProduct> 
+
             <div className="flex gap-3 absolute top-0 right-0">
                 <button className=" border border-slate-400 text-slate-600 py-2 px-3 text-sm font-medium rounded-md"
                 type='button'

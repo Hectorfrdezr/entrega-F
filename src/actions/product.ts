@@ -1,3 +1,5 @@
+import { MdOutlinePhoneBluetoothSpeaker } from "react-icons/md";
+import type { ProductInput } from "../interface";
 import { supabase } from "../supabase/client";
 
 export const getProducts = async (page:number) =>{
@@ -105,4 +107,39 @@ export const searchProducts = async(searchTerm: string) =>{
         console.log(error.message);
         throw new Error(error.message);
     }return data;
-}
+};
+
+//Administrador:
+
+export const createOrder = async(productInput:ProductInput)=>{
+    try{   
+        //1. Crea el producto para obtener el ID:
+        const {data:product,error:productError} = await supabase.from('products')
+        .insert({
+            name: productInput.name,
+            brand: productInput.brand,
+            slug: productInput.slug,
+            features: productInput.features,
+            description: productInput.description,           
+            images:[],
+        })
+        .select().single();
+
+        if(productError) throw new Error(productError.message);
+
+        //2. Subir imagenes al bucle dentro de una carpeta que se creara a partir del prodcuto:
+         const folderName = product.id;
+
+         const uploadedImages = await Promise.all(
+            productInput.images.map(async(image)=>{
+                const {data,error} = await supabase.storage.from('product-images').upload(`${folderName}/${product.id}-${image.name}`,image);
+
+                if(error) throw new Error(error.message);
+            })
+         )
+
+    }catch(error){
+        console.log(error)
+        throw new Error('Error inesperado, Vuelva a intentarlo');
+    }
+} 

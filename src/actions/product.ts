@@ -1,4 +1,3 @@
-import { MdOutlinePhoneBluetoothSpeaker } from "react-icons/md";
 import type { ProductInput } from "../interface";
 import { supabase } from "../supabase/client";
 
@@ -111,7 +110,7 @@ export const searchProducts = async(searchTerm: string) =>{
 
 //Administrador:
 
-export const createOrder = async(productInput:ProductInput)=>{
+export const createProduct = async(productInput:ProductInput)=>{
     try{   
         //1. Crea el producto para obtener el ID:
         const {data:product,error:productError} = await supabase.from('products')
@@ -135,8 +134,35 @@ export const createOrder = async(productInput:ProductInput)=>{
                 const {data,error} = await supabase.storage.from('product-images').upload(`${folderName}/${product.id}-${image.name}`,image);
 
                 if(error) throw new Error(error.message);
+
+                const imageUrl =  `${supabase.storage.from('product-images').getPublicUrl(data.path).data.publicUrl
+                }`;
+                return imageUrl;
             })
-         )
+         );
+
+         //3. Actualizar el producto con la imagen subida.
+         const {error: updatedError} = await supabase.from('products').update({
+            images: uploadedImages,
+         }).eq('id', product.id)
+
+         if(updatedError) throw new Error(updatedError.message);
+
+         //4. Crear las variantes del producto:
+         const variants = productInput.variants.map(variant =>({
+                product_id: product.id,
+                stock: variant.stock,
+                price: variant.price,
+                storage: variant.storgae,
+                color: variant.color,
+                color_name: variant.colorName,
+         }));
+
+         const {error:varianstError} = await supabase.from('variants').insert(variants);
+
+         if(varianstError) throw new Error(varianstError.message)
+
+        return product;
 
     }catch(error){
         console.log(error)

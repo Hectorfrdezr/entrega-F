@@ -61,6 +61,6 @@ export interface variantInput{
     stock: number;
     price: number;
     color: string;
-    storgae: string;
+    storage: string;
     colorName: string;
 };

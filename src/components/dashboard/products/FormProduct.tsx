@@ -11,6 +11,8 @@ import { generateSlug } from "../../../helpers";
 import { VariantsInput } from "./VariantsInput";
 import { UploaderImages } from "./UploaderImages";
 import { Editor } from "./Editor";
+import { useCreateProduct } from "../../../hooks";
+import { Loader } from "../../shared/Loader";
 
 interface Props{
 
@@ -25,23 +27,39 @@ export const FormProduct = ({titleForm}:Props) => {
       const {register, handleSubmit,formState:{errors},setValue,watch,control} = useForm<ProductFormValues>(
         {
           resolver: zodResolver(productSchema)
-        }
-      );
+        });
+
+      const {mutate:createProduct, isPending} = useCreateProduct();  
 
       const navigate = useNavigate();
  
       const onSubmit = handleSubmit((data) => {
-        console.log(data)
+          const features = data.features.map(feature => feature.value);
+
+        createProduct({
+           name: data.name,
+           variants: data.variants,
+           brand: data.brand,
+           slug: data.slug,
+           images: data.images, 
+           description: data.description,
+           features,
+
+        })
       });
 
       const watchNAme = watch('name');
+
+
 
       useEffect(()=>{
           if(!watchNAme)return
 
           const generatedSlug = generateSlug(watchNAme)
           setValue('slug', generatedSlug, {shouldValidate:true})
-      },[watchNAme, setValue])
+      },[watchNAme, setValue]);
+
+      if(isPending) return <Loader/>;
 
   return (
     <div className="flex flex-col gap-6 relative">

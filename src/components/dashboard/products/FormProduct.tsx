@@ -132,11 +132,11 @@ export const FormProduct = ({titleForm}:Props) => {
               </SectionForProduct> 
 
             <div className="flex gap-3 absolute top-0 right-0">
-                <button className=" border border-slate-400 text-slate-600 py-2 px-3 text-sm font-medium rounded-md"
+                <button className="cursor-pointer border border-slate-400 text-slate-600 py-2 px-3 text-sm font-medium rounded-md"
                 type='button'
                 onClick={() => navigate(-1)}>Calncelar</button>
 
-                <button className="bg-black text-white py-2 px-3 text-sm font-medium rounded-md" 
+                <button className=" cursor-pointer bg-black text-white py-2 px-3 text-sm font-medium rounded-md" 
                 type='submit'
                 >Guardar Producto</button>
             </div>

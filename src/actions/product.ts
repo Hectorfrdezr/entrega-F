@@ -153,7 +153,7 @@ export const createProduct = async(productInput:ProductInput)=>{
                 product_id: product.id,
                 stock: variant.stock,
                 price: variant.price,
-                storage: variant.storgae,
+                storage: variant.storage,
                 color: variant.color,
                 color_name: variant.colorName,
          }));

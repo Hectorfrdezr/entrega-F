@@ -43,20 +43,18 @@ export type UserRegisterFormValues = z.infer<typeof userRegisterSchema>;
 
 export type AddressFormValues = z.infer<typeof addressSchema>;
 
-const isContentEmpty = (value:JSONContent): boolean=>{
+export const isContentEmpty = (value:JSONContent): boolean=>{
   if(!value || !Array.isArray(value.content) || value.content.length == 0){
     return true;
   }
   return !value.content.some(
-    node=> 
+    (node) => 
       node.type === 'paragraph' && 
-      node.content && 
-      Array.isArray(node.conten) && 
-      node.conten.some(
-        textNode => 
+      Array.isArray(node.content) && 
+      node.content.some(
+        (textNode) => 
           textNode.type === 'text' && 
-          textNode.text && 
-          textNode.text.trim() !== '')
+          textNode.text?.trim() !== '')
   );
 }
  

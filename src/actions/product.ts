@@ -131,7 +131,8 @@ export const createProduct = async(productInput:ProductInput)=>{
 
          const uploadedImages = await Promise.all(
             productInput.images.map(async(image)=>{
-                const {data,error} = await supabase.storage.from('product-images').upload(`${folderName}/${product.id}-${image.name}`,image);
+                const safeName = image.name.replace(/\s+/g, "-").toLowerCase();
+                const {data,error} = await supabase.storage.from('product-images').upload(`${folderName}-${safeName}`,image);
 
                 if(error) throw new Error(error.message);
 

@@ -18,7 +18,7 @@ interface Props{
 
 
 export const CardProduct = ({
-     img,
+    img,
     name,
     price,
     slug,

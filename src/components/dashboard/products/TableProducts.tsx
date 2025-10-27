@@ -77,7 +77,7 @@ export const TableProducts = () => {
 
                             const selectedVariantIndex = selectedVariants[product.id] ?? 0;
 
-                            const selectedVariant = product.variants[selectedVariantIndex];
+                            const selectedVariant = product.variants[selectedVariantIndex] || {};
 
                             return(
                     <tr key={index}>
@@ -105,9 +105,9 @@ export const TableProducts = () => {
                                 }
                             </select>
                         </td>
-                        <CeldTableProduct content={formatPrice(selectedVariant.price)}/>
+                        <CeldTableProduct content={formatPrice(selectedVariant?.price)}/>
                         
-                        <CeldTableProduct content= {selectedVariant.stock.toString()}/>
+                        <CeldTableProduct content= {(selectedVariant.stock || 0).toString()}/>
 
                        <CeldTableProduct content={formateDatesort(product.created_at)}/>
                         <td className="relative">

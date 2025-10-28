@@ -130,7 +130,7 @@ export const createProduct = async(productInput:ProductInput)=>{
          const folderName = product.id;
 
          const uploadedImages = await Promise.all(
-            productInput.images.map(async(image)=>{
+                productInput.images.map(async(image)=>{
                 const safeName = image.name.replace(/\s+/g, "-").toLowerCase();
                 const {data,error} = await supabase.storage.from('product-images').upload(`${folderName}-${safeName}`,image);
 

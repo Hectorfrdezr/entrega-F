@@ -169,4 +169,35 @@ export const createProduct = async(productInput:ProductInput)=>{
         console.log(error)
         throw new Error('Error inesperado, Vuelva a intentarlo');
     }
-} 
+};
+
+export const deleteProduct = async (productId: string) =>{
+    //1. eliminar la variantes del producto:
+    const {error:varianstError} = await supabase.from('variants').delete().eq('product_id',productId)
+
+        if(varianstError) throw new Error(varianstError.message);
+
+    //2. Obtener las imagenes del producto:
+    const {data: productImages, error: imagesError} = await supabase.from('products').select('images').eq('id',productId).single();
+
+    if(imagesError) throw new Error(imagesError.message)
+
+    //3. eliminar el producto:
+    const {error: deletError} = await supabase.from('products').delete().eq('id', productId);
+
+        if(deletError) throw new Error(deletError.message)
+    
+    // Eliminar imagenes del bucket:
+    if(productImages.images.length > 0){
+        const folderName = productId;
+
+        const paths = productImages.images.map(image => {
+            const fileName = image.split('/').pop();
+            return `${folderName}/${fileName}`;
+        });
+
+        const {error: storegeError} = await supabase.storage.from('product-images').remove(paths);
+
+        if(storegeError) throw new Error(storegeError.message);
+    }
+}

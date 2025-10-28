@@ -89,8 +89,8 @@ export const productSchema =
           .optional(),
           
           stock: z
-          .number()
-          .min(1, 'El stock debe ser mayor a 0'),
+          .number(),
+          
           
           price: z
           .number()

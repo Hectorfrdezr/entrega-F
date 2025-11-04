@@ -298,9 +298,35 @@ export const updateProduct = async (
 
     //5.2 crear y guardar las variantes
 
-    let newVariantIds = [];
+    let newVariantIds: string[] = [];
 
     if(newVariants.length > 0){
-        
-    }
+        const {data, error: insertVariantError} = await supabase.from('variants').insert(newVariants.map(variants =>({
+           product_id:productId,
+           stock: variants.stock,
+           price: variants.price,
+           storage: variants.storage,
+           color: variants.color,
+           color_name: variants.colorName,
+        }))).select();
+
+        if(insertVariantError) throw new Error(insertVariantError.message);
+
+        newVariantIds = data.map(variant => variant.id);
+    };
+
+    //5.3 combinar las variantes
+
+    const currentVariantIds = [
+        ...existingVariants.map(v => v.id),
+        ...newVariantIds,
+    ];
+
+    //5.4 Actualizar las variantes en supabase
+
+    const {error:deleteVariantError} = await supabase.from('variants').delete().eq('product_id', productId).not('id','in', `(${currentVariantIds ? currentVariantIds.join(','): 0})`);
+
+    if(deleteVariantError) throw new Error(deleteVariantError.message);
+
+    return updatedProduct;
 };

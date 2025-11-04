@@ -2,7 +2,7 @@ import { useState } from "react"
 import { FaEllipsis } from "react-icons/fa6"
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import { useProducts } from "../../../hooks";
+import { useDeleteProduct, useProducts } from "../../../hooks";
 import { Loader } from "../../shared/Loader";
 import { formateDatesort, formatPrice } from "../../../helpers";
 import { Pagination } from "../../shared/Pagination";
@@ -27,6 +27,8 @@ export const TableProducts = () => {
     const [page, setPage] = useState(1)
 
     const {products,isLoading,totalProducts} = useProducts({page});
+
+    const {mutate, isPending}= useDeleteProduct();
     
     const handleMenuToggle = (index:number) =>{
         if(openMenuIndex === index){
@@ -44,13 +46,11 @@ export const TableProducts = () => {
     };
     
     const handleDeleteProduct = (id:string) =>{
-        console.log(id)
+        mutate(id);
+        setOpenMenuIndex(null);
     }
-    if (isLoading) return <Loader />
-
-    if (!products || products.length === 0) {
-        return <p>No hay productos disponibles</p>
-        }
+   
+    if (!products || isLoading || !totalProducts || isPending) return <Loader/>
     
     return (
         <div className="flex flex-col flex-1 border border-gray-200 rounded-lg p-5 bg-white">

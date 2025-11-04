@@ -4,6 +4,7 @@ export * from './products/useFilteredProducts';
 export * from './products/useHomeProducts';
 export * from './products/useProduct';
 export * from './products/useCreateProduct';
+export * from './products/useDeleteProduct';
 
 //Autentificaciones
 export * from './auth/useLogin';

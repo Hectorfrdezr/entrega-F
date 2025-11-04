@@ -95,3 +95,14 @@ export const generateSlug = (name:string): string=>{
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 }
+
+// funsion para extraer el path relativo de la URL
+
+export const extractFilePath =  (url: string) =>{
+  const parts = url.split('/storage/v1/object/public/product-images/')
+
+  if(parts.length !== 2){
+    throw new Error (`Url de imagen no valida: ${url}`)
+  }
+  return parts[1]
+}

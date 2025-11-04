@@ -1,3 +1,4 @@
+import { extractFilePath } from "../helpers";
 import type { ProductInput } from "../interface";
 import { supabase } from "../supabase/client";
 
@@ -200,4 +201,106 @@ export const deleteProduct = async (productId: string) =>{
 
         if(storegeError) throw new Error(storegeError.message);
     }
-}
+    return true
+};
+
+
+export const updateProduct = async (
+    productId: string,
+    productInput: ProductInput
+) => {
+    //1. obtener imagenes actuales
+    const {data: currentProduct, error: currentProductError} = await supabase.from('products').select('images').eq('id',productId).single();
+
+    if(currentProductError) throw new Error (currentProductError.message);
+
+    const existingImages = currentProduct.images || [];
+
+    //2. Actualizar la informacion individual del producto
+
+    const {data: updatedProduct, error: productError} = await supabase.from('products').update({
+        name: productInput.name,
+        brand: productInput.brand,
+        slug: productInput.slug,
+        description: productInput.description
+    }).eq('id', productId).select().single();
+
+    if(productError) throw new Error(productError.message);
+
+    //3. Manejo de imagen
+
+    const folderName = productId;
+
+    const ValidImages = productInput.images.filter(image => image);
+
+    //3.1 Identificar las imagenes q han sido eliminadas
+
+    const imageToDelete = existingImages.filter(image => !ValidImages.includes(image));
+
+    //3.2 Obtener los pathc de los archivos a eliminar
+
+    const fileToDelete = imageToDelete.map(extractFilePath);
+
+    //3.3 eliminar images del bucle
+
+    if(fileToDelete.length > 0){
+        const {error: deleteImageError} = await supabase.storage.from('products-images').remove(fileToDelete)
+
+        if(deleteImageError){
+            console.log(deleteImageError)
+            throw new Error (deleteImageError.message)
+        }else(console.log(`Imagenes Eliminadas: ${fileToDelete.join(',')}`)) 
+    }
+    //3.4 subir las nuevas imagenes y construir el array de imagenes actualizado
+    const uploadedImages = await Promise.all(
+        ValidImages.map(async image=>{
+            if(image instanceof File){
+              const {data, error} = await supabase.storage.from('product-images').upload(`${folderName}/${productId}-${image.name}`, image);
+              
+              if(error) throw new Error(error.message);
+
+              const imageUrl = supabase.storage.from('poduct-images').getPublicUrl(data.path).data.publicUrl;
+
+              return imageUrl;
+            }else if(typeof image === 'string'){
+                return image
+            }else{
+                throw new Error('Tipo de imagen no soportado')
+            }
+        })
+    )
+    //4. actualizar el producto con las imagenes actualizadas
+
+    const {error:updateImagesError} = await supabase.from('products').update({images: uploadedImages}).eq('id', productId);
+
+    if(updateImagesError) throw new Error(updateImagesError.message);
+
+    //5. actualizar variantes del producto
+
+    const existingVariants = productInput.variants.filter(v => v.id);
+    const newVariants = productInput.variants.filter(v => !v.id);
+    //5.1 modificar variantes existentes
+    if(existingVariants.length > 0){
+        const {error: updateVariantsError} = await supabase.from('variants').upsert(existingVariants.map(variants =>({
+            id: variants.id,
+           product_id:productId,
+           stock: variants.stock,
+           price: variants.price,
+           storage: variants.storage,
+           color: variants.color,
+           color_name: variants.colorName
+    })),{
+        onConflict: 'id',
+    }
+    );
+    if(updateVariantsError) throw new Error(updateVariantsError.message)
+    }
+
+    //5.2 crear y guardar las variantes
+
+    let newVariantIds = [];
+
+    if(newVariants.length > 0){
+        
+    }
+};

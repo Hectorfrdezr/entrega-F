@@ -2,7 +2,7 @@ import { EditorContent, useEditor, type JSONContent, type Editor as EditorType} 
 import type { FieldErrors, UseFormSetValue } from "react-hook-form";
 import type { ProductFormValues } from "../../../lib/Validator";
 import StarterKit from "@tiptap/starter-kit";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 interface Prosp{
     
@@ -107,7 +107,13 @@ export const Editor = ({setValue,errors,initialContent}:Prosp) => {
                 class: 'focus:outline-non min-h-[150px] prose prose-sm sm:prose-base',
             }
         }
-    }) 
+    });
+
+	useEffect(()=>{
+		if(initialContent && editor){
+			editor.commands.setContent(initialContent);
+		}
+	},[initialContent, editor]);
 
   return (
     <div className="space-y-3">

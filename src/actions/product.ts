@@ -132,7 +132,10 @@ export const createProduct = async(productInput:ProductInput)=>{
 
          const uploadedImages = await Promise.all(
                 productInput.images.map(async(image)=>{
+
+                if (image instanceof File) {
                 const safeName = image.name.replace(/\s+/g, "-").toLowerCase();
+
                 const {data,error} = await supabase.storage.from('product-images').upload(`${folderName}-${safeName}`,image);
 
                 if(error) throw new Error(error.message);
@@ -140,6 +143,11 @@ export const createProduct = async(productInput:ProductInput)=>{
                 const imageUrl =  `${supabase.storage.from('product-images').getPublicUrl(data.path).data.publicUrl
                 }`;
                 return imageUrl;
+            }
+            if(typeof image === 'string'){
+                return image;
+            }
+            throw new Error(`Tipo de imagen no soportado: ${typeof image}`)
             })
          );
 
@@ -231,11 +239,11 @@ export const updateProduct = async (
 
     const folderName = productId;
 
-    const ValidImages = productInput.images.filter(image => image);
+  const ValidImages = (productInput.images || []).filter((img) => !!img);
 
     //3.1 Identificar las imagenes q han sido eliminadas
 
-    const imageToDelete = existingImages.filter(image => !ValidImages.includes(image));
+    const imageToDelete = existingImages.filter((img: string) => !ValidImages.includes(img));
 
     //3.2 Obtener los pathc de los archivos a eliminar
 
@@ -246,32 +254,40 @@ export const updateProduct = async (
     if(fileToDelete.length > 0){
         const {error: deleteImageError} = await supabase.storage.from('products-images').remove(fileToDelete)
 
-        if(deleteImageError){
-            console.log(deleteImageError)
-            throw new Error (deleteImageError.message)
-        }else(console.log(`Imagenes Eliminadas: ${fileToDelete.join(',')}`)) 
+         if (deleteImageError) throw new Error(deleteImageError.message);
+            console.log(`Imagenes eliminadas: ${fileToDelete.join(",")}`); 
     }
     //3.4 subir las nuevas imagenes y construir el array de imagenes actualizado
     const uploadedImages = await Promise.all(
-        ValidImages.map(async image=>{
+        ValidImages.map(async (image)=>{
             if(image instanceof File){
-              const {data, error} = await supabase.storage.from('product-images').upload(`${folderName}/${productId}-${image.name}`, image);
+                const safeName = image.name.replace(/\s+/g, "-").toLowerCase();
+              const {data, error} = await supabase.storage.from('product-images').upload(`${folderName}/${productId}-${safeName}`, image);
               
               if(error) throw new Error(error.message);
 
-              const imageUrl = supabase.storage.from('poduct-images').getPublicUrl(data.path).data.publicUrl;
+              const imageUrl = supabase.storage.from('product-images').getPublicUrl(data.path).data.publicUrl;
 
-              return imageUrl;
+            return imageUrl;
             }else if(typeof image === 'string'){
                 return image
             }else{
-                throw new Error('Tipo de imagen no soportado')
+           console.warn("Tipo de imagen desconocido:", image);
+            return null;
             }
         })
-    )
+    );
+
+    //Filtrar nulos si los hubiera
+
+    const finalImages = uploadedImages.filter(Boolean) as string[];
+    
     //4. actualizar el producto con las imagenes actualizadas
 
-    const {error:updateImagesError} = await supabase.from('products').update({images: uploadedImages}).eq('id', productId);
+    const {error:updateImagesError} = await supabase
+    .from('products')
+    .update({images:finalImages})
+    .eq('id', productId);
 
     if(updateImagesError) throw new Error(updateImagesError.message);
 

@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form"
 import { productSchema, type ProductFormValues } from "../../../lib/Validator";
 import { IoArrowBack } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SectionForProduct } from "./SectionForProduct";
 import { InputForm } from "./InputForm";
 import { FeaturesInput } from "./FeaturesInput";
@@ -11,8 +11,9 @@ import { generateSlug } from "../../../helpers";
 import { VariantsInput } from "./VariantsInput";
 import { UploaderImages } from "./UploaderImages";
 import { Editor } from "./Editor";
-import { useCreateProduct } from "../../../hooks";
+import { useCreateProduct, useProduct, useUpdateProduct } from "../../../hooks";
 import { Loader } from "../../shared/Loader";
+import type { JSONContent } from "@tiptap/react";
 
 interface Props{
 
@@ -28,15 +29,40 @@ export const FormProduct = ({titleForm}:Props) => {
         {
           resolver: zodResolver(productSchema)
         });
+      
+      const {slug} = useParams<{slug: string}>();
 
       const {mutate:createProduct, isPending} = useCreateProduct();  
+      
+
+      const {product, isLoading} = useProduct(slug || '');
+
+      const {mutate: updateProduct, isPending:isUpdatePending} =  useUpdateProduct(product?.id || '');
 
       const navigate = useNavigate();
+
+      useEffect(()=>{
+        if(product && !isLoading){
+          setValue('name', product.name)
+          setValue('slug', product.slug)
+          setValue('brand', product.brand)
+          setValue('features', product.features.map((f: string)=> ({value: f})));
+          setValue('description', (product.description ?? undefined) as JSONContent);
+          setValue('images', product.images)
+          setValue('variants', product.variants.map(v =>({
+            id: v.id,
+            stock: v.stock,
+            price: v.price,
+          storage: v.storage,
+        color: v.color,
+      colorName: v.color_name})))
+        }
+      },[product,isLoading,setValue]);
  
       const onSubmit = handleSubmit((data) => {
           const features = data.features.map(feature => feature.value);
-
-        createProduct({
+        if(!slug){
+          updateProduct({
            name: data.name,
            variants: data.variants,
            brand: data.brand,
@@ -46,6 +72,18 @@ export const FormProduct = ({titleForm}:Props) => {
            features,
 
         })
+          }else{
+          createProduct({
+           name: data.name,
+           variants: data.variants,
+           brand: data.brand,
+           slug: data.slug,
+           images: data.images, 
+           description: data.description,
+           features,
+        })
+        }
+        
       });
 
       const watchNAme = watch('name');
@@ -59,7 +97,7 @@ export const FormProduct = ({titleForm}:Props) => {
           setValue('slug', generatedSlug, {shouldValidate:true})
       },[watchNAme, setValue]);
 
-      if(isPending) return <Loader/>;
+      if(isPending || isUpdatePending || isLoading) return <Loader/>;
 
   return (
     <div className="flex flex-col gap-6 relative">
@@ -128,6 +166,7 @@ export const FormProduct = ({titleForm}:Props) => {
                 <Editor 
                   setValue={setValue}
                   errors={errors}
+                  initialContent={product?.description ? (product.description as JSONContent) : undefined}
                 />
               </SectionForProduct> 
 

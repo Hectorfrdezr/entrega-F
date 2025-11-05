@@ -14,3 +14,4 @@ export * from './OrderUserPage';
 
 export * from './admin/DashboardProductsPage';
 export * from './admin/DashboardNewProductPage';
+export * from './admin/DashboardProductSlug';

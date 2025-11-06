@@ -15,3 +15,5 @@ export * from './OrderUserPage';
 export * from './admin/DashboardProductsPage';
 export * from './admin/DashboardNewProductPage';
 export * from './admin/DashboardProductSlug';
+export * from  './admin/DashboardOrderPage';
+export * from  './admin/DashboardOrderspages';

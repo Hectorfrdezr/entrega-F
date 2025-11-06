@@ -1,7 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { AboutPage, CellPhones, HomePage, CellPhonePage, Loginpage, Registro, OrdersUserPage,CheckoutPage, ThankyouPage,DashboardProductsPage,DashboardNewProductPage, DashboardProductSlug} from "../pages";
+import { AboutPage, CellPhones, HomePage, CellPhonePage, Loginpage, Registro, OrdersUserPage,CheckoutPage, ThankyouPage,DashboardProductsPage,DashboardNewProductPage, DashboardProductSlug, DashboardOrderspages, DashboardOrderPage} from "../pages";
 import { ClientLayout, RootLayout,DashboardLayout} from "../layouts";
 import OrderUserPage from "../pages/OrderUserPage";
+
 
 export const router = createBrowserRouter([{
     path: '/',
@@ -79,6 +80,14 @@ export const router = createBrowserRouter([{
             {
                 path: 'productos/editar/:slug',
                 element: <DashboardProductSlug/>
+            },
+            {
+                path: 'ordenes',
+                element: <DashboardOrderspages/>
+            },
+            {
+                path: 'ordenes/:id',
+                element: <DashboardOrderPage/>
             }
         ],
     }

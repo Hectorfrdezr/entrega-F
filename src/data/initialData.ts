@@ -19,7 +19,7 @@ export const allCelulares = [
 		},
 		features: ['8GB RAM', 'Dual SIM', 'Cámara trasera de 48MP'],
 		id: '4f53b2ea-2a40-4ec7-a6d0-b7c95888ff',
-		images: ['https://ui.shadcn.com/placeholder.svg'],
+		images: ['https://i5.walmartimages.com.mx/mg/gm/3pp/asr/f6368385-7db0-43d1-a25d-62559020eb80.3e37e992ccbb6cf8fc3f76117638fa36.jpeg?odnHeight=2000&odnWidth=2000&odnBg=ffffff'],
 		name: 'Samsung A55 5G',
 		price: 449.99,
 		slug: 'samsung-a55-5g',

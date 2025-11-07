@@ -17,3 +17,9 @@ Ecommerce de tegnologia desarollado en react
 - Tailwindcss
 - React-router-dom
 - React-icons
+
+(auth.uid () IN (
+  SELECT user_roles.user_id
+  FROM user_roles
+  WHERE (user_roles.roles = 'admin'::text)
+))

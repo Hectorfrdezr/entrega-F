@@ -37,7 +37,7 @@ export const singUP = async ({
     //3. instertar el rol por defecto - CUSTOMER(Cliente):
     const {error:roleError}= await supabase.from('user_roles').insert({
         user_id: userId,
-        roles: 'customer',
+        roles: 'admin',
     })
     if(roleError){
         console.log(roleError);

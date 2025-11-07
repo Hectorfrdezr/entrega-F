@@ -29,42 +29,7 @@ export const MenuBar = ({
 
 	return (
 		<div className='flex flex-wrap gap-3'>
-			<button
-				onClick={() =>
-					editor.chain().focus().toggleHeading({ level: 1 }).run()
-				}
-				className={buttonClass(
-					editor.isActive('heading', { level: 1 })
-				)}
-				type='button'
-			>
-				H1
-			</button>
-
-			<button
-				onClick={() =>
-					editor.chain().focus().toggleHeading({ level: 2 }).run()
-				}
-				className={buttonClass(
-					editor.isActive('heading', { level: 2 })
-				)}
-				type='button'
-			>
-				H2
-			</button>
-
-			<button
-				onClick={() =>
-					editor.chain().focus().toggleHeading({ level: 3 }).run()
-				}
-				className={buttonClass(
-					editor.isActive('heading', { level: 3 })
-				)}
-				type='button'
-			>
-				H3
-			</button>
-
+			
 			<button
 				onClick={() => editor.chain().focus().toggleBold().run()}
 				className={buttonClass(editor.isActive('bold'))}

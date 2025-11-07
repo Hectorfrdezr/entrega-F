@@ -95,7 +95,7 @@ export const FormCheckout = () => {
             <div className="flex flex-col gap-3">
             <p className="text-sm font-midium">Metódos de envíos</p>
             <div className="flex justifi-between items-center text-sm border border-stale-600 bg-stone-100 py-4 rounded-md px-6">
-                <span className="font-normal">Estandar</span>
+                <span className="font-normal">Estandar-</span>
                 <span className="font-semibold">Gratís</span>
             </div>
         </div>

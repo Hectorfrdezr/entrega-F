@@ -12,9 +12,59 @@ interface IAuthLogin {
     password: string;
 };
 
-export const singUP = async ({
+export const signUpAdmin= async ({
     email,password,fullName,phone,
 }:IAuthRegister)=>{
+    try{
+       // 1. crear al usuario:
+       const {data, error} = await supabase.auth.signUp({
+        email,password
+       });
+       if(error){throw new Error(error.message)}
+
+    const  userId = data.user?.id; 
+    
+    if(!userId){throw new Error('Error al obtener el id del usuario')};
+
+    //2. autenticar al usuario:
+
+    const {error: singnInError} = await supabase.auth.signInWithPassword({
+        email,password
+    });
+
+    if(singnInError){throw new Error ('Email o Contraceña incorrectos')};
+
+    //3. instertar el rol por defecto - CUSTOMER(ADMIN):
+    const {error:roleError}= await supabase.from('user_roles').insert({
+        user_id: userId,
+        roles: 'admin',
+    })
+    if(roleError){
+        console.log(roleError);
+        throw new Error('Error al registrar el rol del usuario')
+    }
+     //4. insertar los datos del usuario en la tabla customer(clientes):
+    const {error:customerError} = await supabase.from('customers').insert({
+        user_id: userId,
+        full_name: fullName,
+        phone,
+        email,
+    })
+    if(customerError){
+        throw new Error('Error al registrar al Administrador')
+    }
+    return data;
+
+    }catch(error){
+        console.log(error)
+        throw new Error ('Error al regitrar Administrador')
+    }
+};
+
+
+export const singUP = async ({
+    email,password,fullName,phone,
+}:IAuthRegister )=>{
     try{
        // 1. crear al usuario:
        const {data, error} = await supabase.auth.signUp({
@@ -37,7 +87,7 @@ export const singUP = async ({
     //3. instertar el rol por defecto - CUSTOMER(Cliente):
     const {error:roleError}= await supabase.from('user_roles').insert({
         user_id: userId,
-        roles: 'admin',
+        roles: 'customer',
     })
     if(roleError){
         console.log(roleError);

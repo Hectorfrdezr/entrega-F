@@ -39,7 +39,7 @@ return (
             </NavLink>
         {
             role === 'admin' && (
-            <NavLink to= '/dashboard/produtos' className="flex items-center gap-1 hover">
+            <NavLink to= '/dashboard/productos' className="flex items-center gap-1 hover">
                  Dashboard
                  <HiOutlineExternalLink size={16}
                  className="inline-block"/>

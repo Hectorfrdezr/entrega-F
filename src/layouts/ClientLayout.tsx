@@ -3,24 +3,26 @@ import { signOut } from "../actions";
 import { useEffect } from "react";
 import { supabase } from "../supabase/client";
 import { Loader } from "../components/shared/Loader";
-import { useUser } from "../hooks";
+import { useRolesUser, useUser } from "../hooks";
+import { HiOutlineExternalLink } from "react-icons/hi";
 
 
 export const ClientLayout = () => {
 
 const { session, isLoading:isLoadingSession} = useUser();
+const {data: role,isLoading: isLoadingRole} = useRolesUser(session?.user.id as string)
 
 const navigate = useNavigate();
 
 useEffect(() => {
     supabase.auth.onAuthStateChange(async(event,currentSession)=>{
         if(event === 'SIGNED_OUT' || !currentSession){
-            navigate('/login');
+            navigate('/login', {replace:true});
         }
     });
 },[navigate]);
 
-if(isLoadingSession)return <Loader/>
+if(isLoadingSession || isLoadingRole)return <Loader/>
 
 const handleLogout = async () =>{
  await signOut()
@@ -35,7 +37,14 @@ return (
             <NavLink to= '/account/pedidos' className={({isActive})=> `${isActive ? 'underline': 'hover:underline'}`}>
             Pedidos
             </NavLink>
-        {/*Todo: link dashboard*/ }
+        {
+            role === 'admin' && (
+            <NavLink to= '/dashboard/produtos' className='flex items-center gap-1 hover:underline'>
+                 Dashboard
+                 <HiOutlineExternalLink size={16}
+                 className="inline-block"/>
+            </NavLink>)
+        }
 
             <button className="hover:underline"
             onClick={handleLogout}>
@@ -48,4 +57,4 @@ return (
         </main>
     </div>
   )
-}
+};

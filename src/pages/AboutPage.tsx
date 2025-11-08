@@ -3,7 +3,7 @@ export const AboutPage = () => {
     <div className="space-y-5">
       <h1 className="text-center text-4xl font-semibold tracking-tight mb-5">Nuestra Empresa</h1>
 
-      <img src="https://www.revistaeconomia.com/wp-content/uploads/2022/03/Tec-Store.jpg" className="object-cover w-full h-[350px]"/>
+      <div  className="object-cover w-full h-[500px]"style={{backgroundImage: 'url(/img/about.jpg)'}}/>
 
       <div className="flex flex-col gap-4 tracking-tighter leading-7 text-sm font-midium text-slate-800">
 

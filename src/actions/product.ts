@@ -123,7 +123,7 @@ export const createProduct = async(productInput:ProductInput)=>{
             description: productInput.description,           
             images:[],
         })
-        .select().single();
+        .select().single()
 
         if(productError) throw new Error(productError.message);
 
@@ -218,11 +218,11 @@ export const updateProduct = async (
     productInput: ProductInput
 ) => {
     //1. obtener imagenes actuales
-    const {data: currentProduct, error: currentProductError} = await supabase.from('products').select('images').eq('id',productId).single();
+    const {data: currentProduct, error: currentProductError} = await supabase.from('products').select('images').eq('id',productId).maybeSingle();
 
     if(currentProductError) throw new Error (currentProductError.message);
 
-    const existingImages = currentProduct.images || [];
+    const existingImages = currentProduct?.images || [];
 
     //2. Actualizar la informacion individual del producto
 

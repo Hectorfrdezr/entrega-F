@@ -239,7 +239,7 @@ export const updateProduct = async (
 
     const folderName = productId;
 
-  const ValidImages = (productInput.images || []).filter((img) => !!img);
+    const ValidImages = (productInput.images || []).filter((img) => !!img);
 
     //3.1 Identificar las imagenes q han sido eliminadas
 

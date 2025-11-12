@@ -113,12 +113,18 @@ export const searchProducts = async(searchTerm: string) =>{
 
 export const createProduct = async(productInput:ProductInput)=>{
     try{   
+
+         // Validar o generar slug
+        const slug =
+        productInput.slug && productInput.slug.trim() !== ""
+        ? productInput.slug.trim().toLowerCase()
+        : productInput.name.toLowerCase().replace(/\s+/g, "-");
         //1. Crea el producto para obtener el ID:
         const {data:product,error:productError} = await supabase.from('products')
         .insert({
             name: productInput.name,
             brand: productInput.brand,
-            slug: productInput.slug,
+            slug,
             features: productInput.features,
             description: productInput.description,           
             images:[],
@@ -218,7 +224,11 @@ export const updateProduct = async (
     productInput: ProductInput
 ) => {
     //1. obtener imagenes actuales
-    const {data: currentProduct, error: currentProductError} = await supabase.from('products').select('images').eq('id',productId).maybeSingle();
+    const {data: currentProduct, error: currentProductError} = await supabase
+    .from('products')
+    .select('images')
+    .eq('id',productId)
+    .maybeSingle();
 
     if(currentProductError) throw new Error (currentProductError.message);
 
@@ -226,7 +236,9 @@ export const updateProduct = async (
 
     //2. Actualizar la informacion individual del producto
 
-    const {data: updatedProduct, error: productError} = await supabase.from('products').update({
+    const {data: updatedProduct, error: productError} = await supabase
+    .from('products')
+    .update({
         name: productInput.name,
         brand: productInput.brand,
         slug: productInput.slug,

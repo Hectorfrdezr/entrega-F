@@ -40,7 +40,7 @@ export const FeaturesInput = ({control,errors}:Props) => {
             {fields.map((field, index)=>(
                 <li key={field.id} className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                        <div className="bg-slate-500 h-2 w-2" roundend-full/>
+                        <div className="bg-slate-500 h-2 w-2 rounded-full"/>
                         <span className="text-sm text-slate-600 font-medium">
                             {field.value}
                         </span>

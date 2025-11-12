@@ -25,7 +25,7 @@ export const Pagination = ({totalItems, page, setPage}:Props) => {
   
     return (
     <div className="flex justify-between items-center ">
-        <p className="text-xs font-medium ">
+        <p className="text-xs font-medium gap-2 mr-2">
             Mostrando <span className="bold">
                 {starItem}-{endItem}
             </span>{' '} de <span className="font-bold">{totalItems} </span>productos

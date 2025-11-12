@@ -48,7 +48,7 @@ export const DashboardLayout = () => {
   return (
     <div className='flex bg.gray-100 min-h-screem font-montserrat'>
       <Sidebar/>
-      <main className='container m-5 mt-7 flex-1 text-slate-800 ml-[140px] lg:ml-[270px]'>
+      <main className='container overflow-y-auto max-h-screen m-5 mt-7 flex-1 text-slate-800 ml-0 lg:ml-[270px] transition-all duration-300'>
         
         <Outlet/>
       </main>

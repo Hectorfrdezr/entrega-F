@@ -53,7 +53,8 @@ export const TableProducts = () => {
     if (!products || isLoading || !totalProducts || isPending) return <Loader/>
     
     return (
-        <div className="flex items-center justify-center flex-col flex-1 border border-gray-200 rounded-lg p-5 bg-white mx-auto max-w-[95%] sm:max-w-[95%] lg:max-w-none transition-all duration-300">
+        <div className="flex mt-15 items-center justify-center flex-col flex-1 border border-gray-200 rounded-lg p-2 bg-white mx-auto max-w-[95%] sm:max-w-[95%] lg:max-w-none transition-all duration-300 ">
+
         <h1 className="font-bold text-xl text-center">Productos</h1>
         <p className="text-sm mt-1 mb-8 font-regular text-gray-500 text-center">
             Gestiona tus productos y mira las estadisticas de tus ventas

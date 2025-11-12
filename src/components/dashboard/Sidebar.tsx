@@ -37,8 +37,8 @@ export const Sidebar = () => {
     
 
     <div  className={`fixed top-0 left-0 h-screen bg-stone-800 text-white flex flex-col gap-10 items-center p-5 z-50 transition-all duration-300 
-        ${isOpen ? "translate-x-0" : "-translate-x-full"} 
-        w-[220px] lg:w-[250px] lg:translate-x-0`}>
+        ${isOpen ? "translate-x-0 w-[250px]" : "-translate-x-full w-[250px]"} 
+        lg:w-[250px] lg:translate-x-0`}>
         <Logo isDashboard/>
 
         <nav className="w-full space-y-5 flex-1">

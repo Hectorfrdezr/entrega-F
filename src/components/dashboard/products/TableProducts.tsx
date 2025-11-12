@@ -53,21 +53,22 @@ export const TableProducts = () => {
     if (!products || isLoading || !totalProducts || isPending) return <Loader/>
     
     return (
-        <div className="flex flex-col flex-1 border border-gray-200 rounded-lg p-5 bg-white">
-        <h1 className="font-bold text-xl">Productos</h1>
-        <p className="text-sm mt-1 mb-8 font-regular text-gray-500">
+        <div className="flex items-center justify-center flex-col flex-1 border border-gray-200 rounded-lg p-5 bg-white mx-auto max-w-[95%] sm:max-w-[95%] lg:max-w-none transition-all duration-300">
+        <h1 className="font-bold text-xl text-center">Productos</h1>
+        <p className="text-sm mt-1 mb-8 font-regular text-gray-500 text-center">
             Gestiona tus productos y mira las estadisticas de tus ventas
         </p>
 
          {/*Tabala */}   
-        <div className="w-full">
+        <div className="w-full flex flex-col items-center justify-center 
+        sm:items-stretch sm:justify-start">
   {/* Vista para pantallas medianas y grandes */}
-  <div className="hidden sm:block overflow-x-auto">
+  <div className="hidden sm:block  overflow-x-auto w-full max-w-[800px] lg:max-w-none ">
     <table className="min-w-full text-sm text-left border-collapse">
       <thead className="border-b border-gray-200">
         <tr className="font-semibold text-gray-700">
           {tableHeaders.map((header, index) => (
-            <th key={index} className="px-4 py-2 whitespace-nowrap">
+            <th key={index} className="px-10 py-2 whitespace-nowrap text-center">
               {header}
             </th>
           ))}
@@ -80,25 +81,25 @@ export const TableProducts = () => {
           const selectedVariant = product.variants[selectedVariantIndex] || {};
 
           return (
-            <tr key={index} className="border-b hover:bg-gray-50">
+            <tr key={index} className="border-b hover:bg-gray-50 text-center">
               {/* Imagen */}
               <td className="p-3 align-middle">
                 <img
                   src={product.images[0]}
                   alt="Imagen Product"
-                  className="w-14 h-14 aspect-square rounded-md object-contain"
+                  className="w-14 h-14 aspect-square rounded-md object-contain mx-auto"
                 />
               </td>
 
               {/* Nombre */}
-              <td className="p-3 font-medium text-gray-900 whitespace-nowrap">
+              <td className="p-2 font-medium text-xs text-gray-900 whitespace-nowrap">
                 {product.name}
               </td>
 
               {/* Variante */}
               <td className="p-3">
                 <select
-                  className="border border-gray-300 rounded-md p-1 w-full"
+                  className="border text-xs border-gray-300 rounded-md p-1 w-full"
                   onChange={(e) => handleVariantChange(product.id, Number(e.target.value))}
                   value={selectedVariantIndex}
                 >
@@ -111,13 +112,13 @@ export const TableProducts = () => {
               </td>
 
               {/* Precio */}
-              <td className="p-3">{formatPrice(selectedVariant?.price)}</td>
+              <td className="p-2 text-xs">{formatPrice(selectedVariant?.price)}</td>
 
               {/* Stock */}
-              <td className="p-3">{(selectedVariant.stock || 0).toString()}</td>
+              <td className="p-2 text-xs">{(selectedVariant.stock || 0).toString()}</td>
 
               {/* Fecha */}
-              <td className="p-3">{formateDatesort(product.created_at)}</td>
+              <td className="p-2 text-xs">{formateDatesort(product.created_at)}</td>
 
               {/* Menú acciones */}
               <td className="p-3 text-right relative">
@@ -152,7 +153,7 @@ export const TableProducts = () => {
   </div>
 
   {/* Vista tipo cards para móviles */}
-  <div className="sm:hidden space-y-4">
+  <div className="sm:hidden space-y-4 flex flex-col items-center justify-center w-full max-w-sm mx-auto px-2">
     {products?.map((product, index) => {
       const selectedVariantIndex = selectedVariants[product.id] ?? 0;
       const selectedVariant = product.variants[selectedVariantIndex] || {};
@@ -160,7 +161,7 @@ export const TableProducts = () => {
       return (
         <div
           key={index}
-          className="flex items-start justify-between bg-white border border-gray-200 rounded-lg p-3 shadow-sm"
+          className="flex items-start justify-between bg-white border border-gray-200 rounded-lg p-3 shadow-sm w-full"
         >
           <div className="flex items-start gap-3">
             <img
@@ -219,7 +220,7 @@ export const TableProducts = () => {
   </div>
 
   {/* Paginación */}
-  <div className="mt-6">
+  <div className="mt-6 flex justify-center">
     <Pagination page={page} setPage={setPage} totalItems={totalProducts} />
   </div>
 </div>

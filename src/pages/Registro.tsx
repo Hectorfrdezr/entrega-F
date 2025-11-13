@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useSearchParams } from "react-router-dom";
 import {useForm} from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRegister , } from "../hooks";
@@ -12,11 +12,13 @@ import { useUser } from "../hooks/auth/useUser";
 
 export const Registro = () => {
 
+    const [searchParams] = useSearchParams();
+    const emailFromUrl = searchParams.get('email') || '';
   
   const {register, handleSubmit, formState:{errors}} = useForm<UserRegisterFormValues>({
     defaultValues:{
       fullName:'',
-      email: '',
+      email: emailFromUrl,
       password: '',
       phone: '',
     },

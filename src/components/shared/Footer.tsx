@@ -17,18 +17,9 @@ export const Footer = () => {
             suscribete
         </p>
         <p className="text-xs font-mediun">
-            recibe promociones exclusivas
+            Recibe promociones exclusivas y ofertas especiales.
         </p>
-        <div className="border border-gray-800 flex items-center gap-2 px-3 py-2 rounded-full">
-            <input 
-            type="email"
-            placeholder="correo Electronico" 
-            className="pl-2 bg-gray-950 text-slate-200 w-full focus:outline-none"
-            />
-            <button className="text-slate-200">
-                <BiChevronRight size={20}/>
-            </button>
-        </div>
+        
      </div>
      <div className="flex flex-col gap-4 flex-1">
         <p className="font-semibold uppercase tracking-tighter">

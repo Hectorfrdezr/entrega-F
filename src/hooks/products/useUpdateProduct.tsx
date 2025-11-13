@@ -4,13 +4,13 @@ import type { ProductInput } from "../../interface";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-export const useUpdateProduct = (productid: string) => {
+export const useUpdateProduct = (productId: string) => {
 
     const queryCliente = useQueryClient();
     const navigate = useNavigate();
 
     const {mutate,isPending} = useMutation({
-        mutationFn:async (data: ProductInput) => updateProduct(productid,data),
+        mutationFn:async (data: ProductInput) => updateProduct(productId,data),
         onSuccess:() =>{
             queryCliente.invalidateQueries({
                 queryKey:['products']

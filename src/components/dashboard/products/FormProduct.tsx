@@ -37,7 +37,7 @@ export const FormProduct = ({titleForm}:Props) => {
 
       const {product, isLoading} = useProduct(slug || '');
 
-      const {mutate: updateProduct, isPending:isUpdatePending} =  useUpdateProduct(product?.id || '');
+      const {mutate: updateProduct, isPending:isUpdatePending} =  useUpdateProduct(product?.id ?? '');
 
       const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ export const FormProduct = ({titleForm}:Props) => {
  
       const onSubmit = handleSubmit((data) => {
           const features = data.features.map(feature => feature.value);
-        if(!slug){
+        if(slug){
           updateProduct({
            name: data.name,
            variants: data.variants,
@@ -170,7 +170,11 @@ export const FormProduct = ({titleForm}:Props) => {
                 />
               </SectionForProduct> 
 
-            <div className="flex gap-3 absolute top-0 right-0">
+            <div className="flex flex-col sm:flex-row gap-3 
+             w-full sm:w-auto 
+             mt-4 sm:mt-0 
+             relative 
+             lg:absolute lg:top-0 lg:right-0 lg:w-auto">
                 <button className="cursor-pointer border border-slate-400 text-slate-600 py-2 px-3 text-sm font-medium rounded-md"
                 type='button'
                 onClick={() => navigate(-1)}>Calncelar</button>

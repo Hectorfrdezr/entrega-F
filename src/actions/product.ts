@@ -119,6 +119,8 @@ export const createProduct = async(productInput:ProductInput)=>{
         productInput.slug && productInput.slug.trim() !== ""
         ? productInput.slug.trim().toLowerCase()
         : productInput.name.toLowerCase().replace(/\s+/g, "-");
+
+        console.log(slug)
         //1. Crea el producto para obtener el ID:
         const {data:product,error:productError} = await supabase.from('products')
         .insert({
@@ -181,9 +183,9 @@ export const createProduct = async(productInput:ProductInput)=>{
         return product;
 
     }catch(error){
-        console.log(error)
-        throw new Error('Error inesperado, Vuelva a intentarlo');
-    }
+        console.error("Error en createProduct:", error);
+        throw new Error(error instanceof Error ? error.message : "Error inesperado");
+                 }
 };
 
 export const deleteProduct = async (productId: string) =>{
@@ -223,6 +225,14 @@ export const updateProduct = async (
     productId: string,
     productInput: ProductInput
 ) => {
+
+    if (!Array.isArray(productInput.images)) {
+  productInput.images = [];
+}
+
+    if (!productId || typeof productId !== "string" || productId.trim() === "") {
+    throw new Error("El productId es inválido o está vacío.");
+    }
     //1. obtener imagenes actuales
     const {data: currentProduct, error: currentProductError} = await supabase
     .from('products')
@@ -264,7 +274,7 @@ export const updateProduct = async (
     //3.3 eliminar images del bucle
 
     if(fileToDelete.length > 0){
-        const {error: deleteImageError} = await supabase.storage.from('products-images').remove(fileToDelete)
+        const {error: deleteImageError} = await supabase.storage.from('product-images').remove(fileToDelete)
 
          if (deleteImageError) throw new Error(deleteImageError.message);
             console.log(`Imagenes eliminadas: ${fileToDelete.join(",")}`); 
@@ -352,7 +362,15 @@ export const updateProduct = async (
 
     //5.4 Actualizar las variantes en supabase
 
-    const {error:deleteVariantError} = await supabase.from('variants').delete().eq('product_id', productId).not('id','in', `(${currentVariantIds ? currentVariantIds.join(','): 0})`);
+    const {error:deleteVariantError} = await supabase
+    .from('variants')
+    .delete()
+    .eq('product_id', productId)
+    .not(
+    'id',
+    'in',
+    `(${currentVariantIds.length > 0 ? currentVariantIds.join(',') : '00000000-0000-0000-0000-000000000000'})`
+  );
 
     if(deleteVariantError) throw new Error(deleteVariantError.message);
 

@@ -46,9 +46,10 @@ export const DashboardLayout = () => {
 
 
   return (
-    <div className='flex bg.gray-100 min-h-screem font-montserrat'>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 font-montserrat 
+                sm:flex-row sm:items-start sm:justify-between p-4 sm:p-6 md:p-8 transition-all duration-300">
       <Sidebar/>
-      <main className='container overflow-y-auto max-h-screen m-5 mt-7 flex-1 text-slate-800 ml-0 lg:ml-[270px] transition-all duration-300'>
+      <main className='container flex-col overflow-y-auto max-h-screen m-5 mt-12 flex-1 text-slate-800 ml-0 lg:ml-[270px] transition-all duration-300'>
         
         <Outlet/>
       </main>

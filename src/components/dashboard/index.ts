@@ -13,3 +13,4 @@ export * from './products/FeaturesInput';
 export * from './products/VariantsInput';
 export * from './products/UploaderImages';
 export * from './products/Editor';
+export * from './products/DasboardHeader';
